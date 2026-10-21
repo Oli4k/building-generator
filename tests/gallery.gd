@@ -26,42 +26,77 @@ func _run() -> void:
 	await RenderingServer.frame_post_draw
 
 	var camera := scene.get_node("Camera") as Camera3D
-	var houses := _houses(scene)
-	var bounds := _bounds(houses)
-	var center := bounds.get_center()
-	var span := maxf(bounds.size.x, bounds.size.z)
-	camera.fov = 44
-	camera.look_at_from_position(center + Vector3(span * 0.06, span * 0.30, -span * 0.86), center + Vector3(0, 4.0, 0))
+	camera.fov = 35
+	_frame(camera, _bounds(_houses(scene)))
 	await _settle()
 	_shot("res://docs/images/village.png")
 
-	var cottage := scene.get_node("cottage_4") as Node3D
-	var cottage_at := _node_box(cottage).get_center()
-	camera.fov = 32
-	camera.look_at_from_position(cottage_at + Vector3(-5.2, 1.8, -12.5), cottage_at + Vector3(0.4, -0.6, 0))
+	_solo(scene, scene.get_node("cottage_4"))
+	_frame(camera, _node_box(scene.get_node("cottage_4")))
 	await _settle()
 	_shot("res://docs/images/cottage.png")
 
-	var church := scene.get_node("church_14") as Node3D
-	var church_at := _node_box(church).get_center()
-	camera.fov = 38
-	camera.look_at_from_position(church_at + Vector3(13.0, 7.5, 30.0), church_at + Vector3(0.0, -1.2, 0.0))
+	_solo(scene, scene.get_node("church_14"))
+	_frame(camera, _node_box(scene.get_node("church_14")))
 	await _settle()
 	_shot("res://docs/images/church.png")
 
-	var chalet := scene.get_node("chalet_5") as Node3D
-	var chalet_at := _node_box(chalet).get_center()
-	camera.fov = 34
-	camera.look_at_from_position(chalet_at + Vector3(11.0, 3.4, -16.0), chalet_at + Vector3(-0.4, 0.6, 0.4))
+	_solo(scene, scene.get_node("chalet_5"))
+	_frame(camera, _node_box(scene.get_node("chalet_5")))
 	await _settle()
 	_shot("res://docs/images/chalet.png")
 	quit()
+
+
+## Front-right, 45° in plan and 30° down, with the subject center in the middle of the frame.
+func _frame(camera: Camera3D, box: AABB) -> void:
+	var yaw := PI / 4.0
+	var pitch := deg_to_rad(30.0)
+	var look := Vector3(-sin(yaw) * cos(pitch), -sin(pitch), cos(yaw) * cos(pitch))
+	var basis := Basis.looking_at(look, Vector3.UP)
+	var target := box.get_center()
+	var radius := box.size.length() * 0.5
+	var aspect := 1920.0 / 1080.0
+	var half_y := deg_to_rad(camera.fov) * 0.5
+	var half_x := atan(tan(half_y) * aspect)
+	var low := radius * 0.4
+	var high := radius * 14.0
+	for _step in 20:
+		var mid := (low + high) * 0.5
+		if _subject_fits(box, target - look * mid, basis, half_x, half_y):
+			high = mid
+		else:
+			low = mid
+	camera.look_at_from_position(target - look * high, target)
+
+
+func _subject_fits(box: AABB, eye: Vector3, basis: Basis, half_x: float, half_y: float) -> bool:
+	var limit := 0.9
+	var origin := box.position
+	var size := box.size
+	for x in [origin.x, origin.x + size.x]:
+		for y in [origin.y, origin.y + size.y]:
+			for z in [origin.z, origin.z + size.z]:
+				var local := basis.inverse() * (Vector3(x, y, z) - eye)
+				if local.z > -0.2:
+					return false
+				if absf(atan(local.x / -local.z)) > half_x * limit:
+					return false
+				if absf(atan(local.y / -local.z)) > half_y * limit:
+					return false
+	return true
 
 
 func _settle() -> void:
 	for _i in 3:
 		await process_frame
 	await RenderingServer.frame_post_draw
+
+
+func _solo(scene: Node, subject: Node) -> void:
+	for child in scene.get_children():
+		if child is GeneratedHouse:
+			child.visible = child == subject
 
 
 func _houses(scene: Node) -> Array[Node3D]:

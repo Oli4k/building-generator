@@ -4,9 +4,25 @@ Godot 4.7 editor plugin that builds houses, shops, offices, and churches from a 
 
 ![The demo village](docs/images/village.png)
 
-The mesh origin is the ground contact at the footprint center. The front faces -Z. Width runs along X, depth along Z. Each baked scene is one mesh per level of detail. The near mesh keeps separate materials for walls, roof, trim, foundation, door, glass, and chimney. The far mesh keeps walls and roof, so Terrain3D can instance it across a large scenery.
+The mesh origin is the ground contact at the footprint center. The front faces -Z. Width runs along X, depth along Z. Each baked scene has three meshes, `LOD0`, `LOD1`, and `LOD2`.
 
 Licensed under the [MIT License](LICENSE).
+
+## Cost
+
+Generation runs in the editor. A game only draws the baked meshes.
+
+The scatter set is 18 variants in `house_catalog`. They share one material and two 512×256 textures, an albedo and a roughness, so every copy of a variant is one draw call. Shadows come from `LOD0` only.
+
+| Level | Contents | Triangles | Shadows |
+| --- | --- | --- | --- |
+| LOD0 | Openings, porch, door frame | 312–1,992 | on |
+| LOD1 | Solid walls, porch roof | 48–157 | off |
+| LOD2 | Outer walls and roof | 10–53 | off |
+
+Houses, shops, and churches are 312–990 triangles on `LOD0`. The two offices are 1,430 and 1,992. `LOD2` is 10–22 triangles, except the churches, which keep the tower and cross at 48–53. Faces do not share vertices, so the vertex buffer is three times the triangle count.
+
+A `GeneratedHouse`, and any bake outside the catalog, uses one material per surface. The near mesh has up to seven (wall, roof, trim, foundation, door, glass, chimney) and runs from 504 to 5,160 triangles, because it keeps window frames and more window columns. Its `LOD1` and `LOD2` triangle counts match the table. It also builds a box collider over the footprint and the floors. Catalog scenes are render meshes only.
 
 ## Examples
 
@@ -20,7 +36,7 @@ A chalet, with a low eave and a porch.
 
 ![1960s church](docs/images/church.png)
 
-A 1960s church. The tall wall is a row of slits, and the campanile carries a cross whose size follows the seed. The chapel behind it is the older plan: a west tower, a nave, and a smaller cross.
+A 1960s church. The shed roof rises toward a campanile, and the cross size follows the seed.
 
 Run the project to walk around `demo/village.tscn`. It contains every building type.
 
