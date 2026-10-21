@@ -1,0 +1,673 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/house_generator/house.gd" id="1_cnm1h"]
+[ext_resource type="Script" path="res://addons/house_generator/house_properties.gd" id="2_xbkyd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nh8ji"]
+
+[sub_resource type="Sky" id="Sky_so5wc"]
+sky_material = SubResource("ProceduralSkyMaterial_nh8ji")
+
+[sub_resource type="Environment" id="Environment_6l1mx"]
+background_mode = 2
+sky = SubResource("Sky_so5wc")
+ambient_light_source = 3
+ambient_light_energy = 0.45
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_td4fk"]
+albedo_color = Color(0.42745098, 0.47843137, 0.32156864, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ik1xl"]
+size = Vector2(137.35384, 106.48528)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mukvb"]
+size = Vector3(137.35384, 0.2, 106.48528)
+
+[sub_resource type="Resource" id="Resource_lccox"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 1
+seed = 2
+width = 7.168071
+depth = 5.5426083
+floor_height = 2.4533682
+foundation_height = 0.32
+roof_pitch = 0.9354713
+roof_overhang = 0.46475038
+porch_depth = 1.2
+window_columns = 2
+window_omit = 0.15
+window_width = 0.52
+window_height = 0.64
+window_pattern = 4
+window_variation = 0.75
+wall_color = Color(0.47843137, 0.3254902, 0.2509804, 1)
+roof_color = Color(0.17254902, 0.2, 0.1882353, 1)
+trim_color = Color(0.79607844, 0.72156864, 0.6039216, 1)
+door_color = Color(0.16470589, 0.12941177, 0.10980392, 1)
+foundation_color = Color(0.3529412, 0.33333334, 0.30588236, 1)
+chimney_color = Color(0.41568628, 0.38431373, 0.34509805, 1)
+
+[sub_resource type="Resource" id="Resource_76kjd"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 1
+seed = 11
+width = 7.514536
+depth = 5.3012357
+floor_height = 2.4737837
+foundation_height = 0.32
+roof_pitch = 0.60722375
+roof_overhang = 0.42356098
+chimney_side = 0
+porch = true
+porch_depth = 1.2
+window_columns = 2
+window_omit = 0.15
+window_width = 0.52
+window_height = 0.64
+window_pattern = 4
+window_variation = 0.75
+wall_color = Color(0.36078432, 0.22745098, 0.14117648, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.79607844, 0.72156864, 0.6039216, 1)
+door_color = Color(0.16470589, 0.12941177, 0.10980392, 1)
+foundation_color = Color(0.3529412, 0.33333334, 0.30588236, 1)
+chimney_color = Color(0.41568628, 0.38431373, 0.34509805, 1)
+
+[sub_resource type="Resource" id="Resource_a87m8"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+seed = 4
+width = 8.560298
+depth = 5.1795235
+floors = 2
+floor_height = 2.6792126
+foundation_height = 0.32
+roof_pitch = 0.68812245
+roof_overhang = 0.5457357
+porch_depth = 1.4989899
+window_omit = 0.12
+window_width = 0.66
+window_height = 1.25
+window_pattern = 1
+window_variation = 0.75
+wall_color = Color(0.91764706, 0.8745098, 0.80784315, 1)
+roof_color = Color(0.4392157, 0.27058825, 0.2, 1)
+trim_color = Color(0.96862745, 0.94509804, 0.9019608, 1)
+foundation_color = Color(0.45490196, 0.40784314, 0.36078432, 1)
+
+[sub_resource type="Resource" id="Resource_w2fld"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+seed = 9
+width = 7.487557
+depth = 5.305031
+floor_height = 2.7172115
+foundation_height = 0.32
+roof_pitch = 0.7861779
+roof_overhang = 0.4530173
+chimney_side = 0
+porch_depth = 1.2393554
+window_omit = 0.12
+window_width = 0.66
+window_height = 1.25
+window_pattern = 1
+window_variation = 0.75
+wall_color = Color(0.8509804, 0.76862746, 0.6431373, 1)
+trim_color = Color(0.96862745, 0.94509804, 0.9019608, 1)
+door_color = Color(0.18431373, 0.23921569, 0.21176471, 1)
+foundation_color = Color(0.45490196, 0.40784314, 0.36078432, 1)
+
+[sub_resource type="Resource" id="Resource_j2l22"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+seed = 15
+width = 7.6209173
+depth = 5.27684
+floor_height = 2.5334663
+foundation_height = 0.32
+roof_pitch = 0.7916255
+roof_overhang = 0.5141534
+chimney = false
+porch = true
+porch_depth = 1.4124545
+window_omit = 0.12
+window_width = 0.66
+window_height = 1.25
+window_pattern = 1
+window_variation = 0.75
+wall_color = Color(0.9372549, 0.9019608, 0.8392157, 1)
+trim_color = Color(0.96862745, 0.94509804, 0.9019608, 1)
+door_color = Color(0.18431373, 0.23921569, 0.21176471, 1)
+foundation_color = Color(0.45490196, 0.40784314, 0.36078432, 1)
+
+[sub_resource type="Resource" id="Resource_y2fke"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 5
+seed = 2
+width = 4.746341
+depth = 3.4309874
+floor_height = 2.353368
+foundation_height = 0.12
+roof_type = 3
+roof_pitch = 0.3133583
+roof_overhang = 0.18367021
+chimney = false
+window_columns = 1
+window_omit = 0.0
+window_width = 0.46
+window_height = 0.5
+door_width = 0.82
+door_height = 1.9
+wall_color = Color(0.6039216, 0.5254902, 0.40784314, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.8235294, 0.76862746, 0.6666667, 1)
+door_color = Color(0.2901961, 0.20392157, 0.15686275, 1)
+foundation_color = Color(0.36078432, 0.34117648, 0.30980393, 1)
+
+[sub_resource type="Resource" id="Resource_55f48"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 5
+seed = 8
+width = 4.129851
+depth = 3.58466
+floor_height = 2.3572726
+foundation_height = 0.12
+roof_type = 3
+roof_pitch = 0.1856913
+roof_overhang = 0.22334346
+chimney = false
+window_columns = 1
+window_omit = 0.0
+window_width = 0.46
+window_height = 0.5
+door_width = 0.82
+door_height = 1.9
+wall_color = Color(0.36862746, 0.41568628, 0.34509805, 1)
+roof_color = Color(0.34901962, 0.3764706, 0.40784314, 1)
+trim_color = Color(0.8235294, 0.76862746, 0.6666667, 1)
+door_color = Color(0.2901961, 0.20392157, 0.15686275, 1)
+foundation_color = Color(0.36078432, 0.34117648, 0.30980393, 1)
+
+[sub_resource type="Resource" id="Resource_7tv1t"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 6
+seed = 5
+width = 11.340208
+depth = 6.702729
+floors = 2
+floor_height = 2.7951758
+foundation_height = 0.893348
+roof_pitch = 1.1633382
+roof_overhang = 0.9167225
+chimney = false
+porch = true
+porch_depth = 1.7559403
+window_columns = 2
+window_omit = 0.08
+window_width = 1.32
+window_height = 0.78
+window_pattern = 2
+window_variation = 0.75
+wall_color = Color(0.47843137, 0.3372549, 0.2509804, 1)
+roof_color = Color(0.22745098, 0.24705882, 0.27450982, 1)
+trim_color = Color(0.84313726, 0.76862746, 0.6431373, 1)
+door_color = Color(0.22745098, 0.14117648, 0.09411765, 1)
+foundation_color = Color(0.5411765, 0.5254902, 0.5019608, 1)
+chimney_color = Color(0.43137255, 0.40784314, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_ii5o3"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 6
+seed = 12
+width = 9.645276
+depth = 6.000642
+floors = 2
+floor_height = 2.6163874
+foundation_height = 0.6638924
+roof_pitch = 1.1275754
+roof_overhang = 0.73298883
+chimney = false
+chimney_side = 0
+porch_depth = 1.4871478
+window_columns = 2
+window_omit = 0.08
+window_width = 1.32
+window_height = 0.78
+window_pattern = 2
+window_variation = 0.75
+wall_color = Color(0.30588236, 0.21960784, 0.15686275, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.84313726, 0.76862746, 0.6431373, 1)
+door_color = Color(0.22745098, 0.14117648, 0.09411765, 1)
+foundation_color = Color(0.5411765, 0.5254902, 0.5019608, 1)
+chimney_color = Color(0.43137255, 0.40784314, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_dd4f7"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 3
+seed = 7
+width = 12.373288
+depth = 8.267675
+floors = 2
+floor_height = 2.870121
+foundation_height = 0.32
+roof_type = 4
+roof_pitch = 0.7500799
+roof_overhang = 0.5511367
+chimney = false
+chimney_side = 0
+porch = true
+porch_depth = 2.1177435
+window_columns = 4
+window_width = 1.18
+window_height = 0.98
+window_pattern = 3
+window_variation = 0.6
+wall_color = Color(0.90588236, 0.84313726, 0.7529412, 1)
+roof_color = Color(0.43137255, 0.18039216, 0.16470589, 1)
+trim_color = Color(0.9843137, 0.96862745, 0.9411765, 1)
+door_color = Color(0.36078432, 0.18431373, 0.13333334, 1)
+foundation_color = Color(0.43137255, 0.40784314, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_0xf5w"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 3
+seed = 15
+width = 12.42519
+depth = 6.700951
+floors = 2
+floor_height = 2.800846
+foundation_height = 0.32
+roof_type = 4
+roof_pitch = 0.72690344
+roof_overhang = 0.5253459
+porch = true
+porch_depth = 2.1128798
+window_columns = 4
+window_width = 1.18
+window_height = 0.98
+window_pattern = 3
+window_variation = 0.6
+wall_color = Color(0.95686275, 0.9372549, 0.9019608, 1)
+roof_color = Color(0.24705882, 0.27450982, 0.3137255, 1)
+trim_color = Color(0.9843137, 0.96862745, 0.9411765, 1)
+door_color = Color(0.36078432, 0.18431373, 0.13333334, 1)
+foundation_color = Color(0.43137255, 0.40784314, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_gxodv"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 2
+seed = 8
+width = 4.9718075
+depth = 8.363428
+floors = 4
+floor_height = 2.65605
+foundation_height = 0.32
+roof_pitch = 0.47174153
+roof_overhang = 0.28
+chimney = false
+door_side = 2
+window_columns = 2
+window_omit = 0.0
+window_width = 0.56
+window_height = 1.68
+wall_color = Color(0.84705883, 0.8235294, 0.7764706, 1)
+roof_color = Color(0.17254902, 0.17254902, 0.1882353, 1)
+trim_color = Color(0.95686275, 0.9411765, 0.9098039, 1)
+door_color = Color(0.3529412, 0.18039216, 0.14117648, 1)
+foundation_color = Color(0.36862746, 0.3529412, 0.33333334, 1)
+
+[sub_resource type="Resource" id="Resource_6bbts"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 4
+seed = 6
+width = 17.453691
+depth = 11.926711
+floors = 2
+floor_height = 3.139866
+foundation_height = 0.32
+roof_type = 1
+roof_pitch = 0.52287465
+roof_overhang = 0.5659973
+chimney = false
+porch = true
+porch_depth = 1.8306708
+window_columns = 4
+window_omit = 0.0
+window_width = 1.28
+window_height = 1.82
+window_pattern = 1
+window_variation = 0.45
+wall_color = Color(0.9647059, 0.94509804, 0.90588236, 1)
+roof_color = Color(0.63529414, 0.29411766, 0.20392157, 1)
+trim_color = Color(1, 0.98039216, 0.9529412, 1)
+door_color = Color(0.43137255, 0.22745098, 0.15686275, 1)
+foundation_color = Color(0.8509804, 0.81960785, 0.76862746, 1)
+
+[sub_resource type="Resource" id="Resource_omrfs"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 8
+seed = 6
+width = 11.926711
+depth = 7.159017
+floor_height = 3.3093119
+foundation_height = 0.12
+roof_type = 2
+roof_pitch = 0.2
+roof_overhang = 0.15
+chimney = false
+door_side = 2
+window_columns = 2
+window_omit = 0.0
+window_width = 0.7
+window_height = 1.08
+window_pattern = 1
+window_variation = 0.4
+door_width = 1.05
+door_height = 2.2
+wall_color = Color(0.95686275, 0.9372549, 0.89411765, 1)
+roof_color = Color(0.17254902, 0.2, 0.21960784, 1)
+trim_color = Color(0.96862745, 0.9529412, 0.91764706, 1)
+door_color = Color(0.16470589, 0.14117648, 0.1254902, 1)
+foundation_color = Color(0.41568628, 0.39607844, 0.3764706, 1)
+glass_color = Color(0.61960787, 0.76862746, 0.8235294, 1)
+
+[sub_resource type="Resource" id="Resource_wb7rn"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 8
+seed = 15
+width = 8.321522
+depth = 6.872872
+floors = 2
+floor_height = 2.9002917
+foundation_height = 0.12
+roof_pitch = 0.35
+roof_overhang = 0.35
+chimney = false
+door_side = 2
+window_columns = 2
+window_omit = 0.0
+window_width = 0.7
+window_height = 1.08
+window_pattern = 1
+window_variation = 0.4
+door_width = 1.05
+door_height = 2.2
+wall_color = Color(0.8352941, 0.8666667, 0.8235294, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.96862745, 0.9529412, 0.91764706, 1)
+door_color = Color(0.16470589, 0.14117648, 0.1254902, 1)
+foundation_color = Color(0.41568628, 0.39607844, 0.3764706, 1)
+glass_color = Color(0.61960787, 0.76862746, 0.8235294, 1)
+
+[sub_resource type="Resource" id="Resource_76igp"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 9
+seed = 17
+width = 12.745662
+depth = 8.737612
+floors = 3
+floor_height = 3.2187145
+foundation_height = 0.18
+roof_type = 2
+roof_pitch = 0.2
+roof_overhang = 0.12
+chimney = false
+window_columns = 4
+window_omit = 0.0
+window_width = 1.4
+window_height = 1.6
+door_width = 1.2
+door_height = 2.3
+wall_color = Color(0.7176471, 0.7529412, 0.7764706, 1)
+roof_color = Color(0.17254902, 0.19215687, 0.21176471, 1)
+trim_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+door_color = Color(0.11764706, 0.14117648, 0.15686275, 1)
+foundation_color = Color(0.36862746, 0.39215687, 0.40784314, 1)
+glass_color = Color(0.5568628, 0.7058824, 0.7764706, 1)
+
+[sub_resource type="Resource" id="Resource_mqu2u"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 9
+seed = 6
+width = 15.926711
+depth = 9.918927
+floors = 4
+floor_height = 3.2160933
+foundation_height = 0.18
+roof_type = 2
+roof_pitch = 0.2
+roof_overhang = 0.12
+chimney = false
+window_columns = 4
+window_omit = 0.0
+window_width = 1.4
+window_height = 1.6
+door_width = 1.2
+door_height = 2.3
+wall_color = Color(0.7176471, 0.7529412, 0.7764706, 1)
+roof_color = Color(0.17254902, 0.19215687, 0.21176471, 1)
+trim_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+door_color = Color(0.11764706, 0.14117648, 0.15686275, 1)
+foundation_color = Color(0.36862746, 0.39215687, 0.40784314, 1)
+glass_color = Color(0.5568628, 0.7058824, 0.7764706, 1)
+
+[sub_resource type="Resource" id="Resource_t0ou8"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 7
+seed = 12
+width = 13.304901
+depth = 6.0002565
+floor_height = 3.6929424
+foundation_height = 0.30593872
+roof_pitch = 1.1833693
+roof_overhang = 0.2753948
+chimney = false
+chimney_side = 0
+window_walls = 5
+window_columns = 3
+window_omit = 0.1
+window_width = 0.4
+window_height = 2.1
+door_width = 1.15
+door_height = 2.35
+wall_color = Color(0.8666667, 0.8392157, 0.78431374, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.96862745, 0.95686275, 0.93333334, 1)
+door_color = Color(0.22745098, 0.16470589, 0.13333334, 1)
+foundation_color = Color(0.5411765, 0.5254902, 0.5019608, 1)
+
+[sub_resource type="Resource" id="Resource_teadv"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 7
+seed = 13
+width = 10.316395
+depth = 7.079569
+floor_height = 3.7815263
+foundation_height = 0.18869649
+roof_pitch = 1.042436
+roof_overhang = 0.347677
+chimney = false
+window_walls = 5
+window_columns = 3
+window_omit = 0.1
+window_width = 0.4
+window_height = 2.1
+door_width = 1.15
+door_height = 2.35
+wall_color = Color(0.89411765, 0.8784314, 0.84705883, 1)
+roof_color = Color(0.2901961, 0.2509804, 0.21960784, 1)
+trim_color = Color(0.96862745, 0.95686275, 0.93333334, 1)
+door_color = Color(0.22745098, 0.16470589, 0.13333334, 1)
+foundation_color = Color(0.5411765, 0.5254902, 0.5019608, 1)
+
+[sub_resource type="Resource" id="Resource_juq56"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 7
+seed = 14
+width = 14.96097
+depth = 9.7360935
+floor_height = 3.3215768
+foundation_height = 0.31950855
+roof_type = 3
+roof_pitch = 0.68287635
+roof_overhang = 1.064392
+chimney = false
+window_columns = 2
+window_omit = 0.35
+window_width = 1.5
+window_height = 0.62
+door_width = 1.15
+door_height = 2.35
+wall_color = Color(0.89411765, 0.8784314, 0.84705883, 1)
+roof_color = Color(0.43137255, 0.23921569, 0.19607843, 1)
+trim_color = Color(0.96862745, 0.95686275, 0.93333334, 1)
+door_color = Color(0.22745098, 0.16470589, 0.13333334, 1)
+foundation_color = Color(0.7176471, 0.69803923, 0.6666667, 1)
+glass_color = Color(0.77254903, 0.8352941, 0.83137256, 1)
+
+[node name="Village" type="Node3D" unique_id=1475731840]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1643650591]
+environment = SubResource("Environment_6l1mx")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=385831034]
+transform = Transform3D(-0.7893521, 0.23992342, -0.56511945, 0, 0.9204788, 0.3907925, 0.6139407, 0.30847287, -0.72658193, -36.873844, 29.499075, -47.409225)
+light_energy = 1.3
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 0.8
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1075684768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+material_override = SubResource("StandardMaterial3D_td4fk")
+mesh = SubResource("PlaneMesh_ik1xl")
+
+[node name="GroundBody" type="StaticBody3D" parent="." unique_id=2104077023]
+
+[node name="Shape" type="CollisionShape3D" parent="GroundBody" unique_id=952802958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_mukvb")
+
+[node name="cabin_2" type="Node3D" parent="." unique_id=381820672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.37323, 0, -33.921337)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_lccox")
+
+[node name="cabin_11" type="Node3D" parent="." unique_id=913270823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.143618, 0, -33.39202)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_76kjd")
+
+[node name="cottage_4" type="Node3D" parent="." unique_id=1413602909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.136903, 0, -34.10288)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_a87m8")
+
+[node name="cottage_9" type="Node3D" parent="." unique_id=1860493261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8857791, 0, -34.040127)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_w2fld")
+
+[node name="cottage_15" type="Node3D" parent="." unique_id=807396670]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.407187, 0, -33.191765)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_j2l22")
+
+[node name="shed_2" type="Node3D" parent="." unique_id=335699033]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.288637, 0, -34.977146)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_y2fke")
+
+[node name="shed_8" type="Node3D" parent="." unique_id=783599924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.133747, 0, -34.90031)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_55f48")
+
+[node name="chalet_5" type="Node3D" parent="." unique_id=908249753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.090096, 0, -14.931889)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_7tv1t")
+
+[node name="chalet_12" type="Node3D" parent="." unique_id=1463446557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.947643, 0, -16.305883)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_ii5o3")
+
+[node name="farmhouse_7" type="Node3D" parent="." unique_id=1564365522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.654235, 0, -13.787613)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_dd4f7")
+
+[node name="farmhouse_15" type="Node3D" parent="." unique_id=1594389459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.821488, 0, -14.575838)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_0xf5w")
+
+[node name="townhouse_8" type="Node3D" parent="." unique_id=794185752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.325329, 0, -15.30748)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_gxodv")
+
+[node name="villa_6" type="Node3D" parent="." unique_id=1527938248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.384075, 0, -12.245167)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_6bbts")
+
+[node name="shop_6" type="Node3D" parent="." unique_id=1154098182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.086948, 0, 8.413696)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_omrfs")
+
+[node name="shop_15" type="Node3D" parent="." unique_id=2132110827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.462831, 0, 8.270622)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_wb7rn")
+
+[node name="office_17" type="Node3D" parent="." unique_id=979636692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.540759, 0, 9.2029915)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_76igp")
+
+[node name="office_6" type="Node3D" parent="." unique_id=1998936492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.116947, 0, 9.793652)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_mqu2u")
+
+[node name="church_12" type="Node3D" parent="." unique_id=1401315583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.415745, 0, 28.423244)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_t0ou8")
+
+[node name="church_13" type="Node3D" parent="." unique_id=2012231552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666354, 0, 28.962894)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_teadv")
+
+[node name="church_14" type="Node3D" parent="." unique_id=506000722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.799713, 0, 30.805553)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_juq56")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=150164606]
+transform = Transform3D(-1, -5.2192515e-08, 1.4168864e-07, 0, 0.9383615, 0.3456554, -1.509958e-07, 0.3456554, -0.9383615, 0, 50.56984, -126.42461)
+current = true
+fov = 48.0

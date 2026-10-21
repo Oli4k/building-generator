@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/cottage_c_lod0.res" id="1_cy0cb"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/cottage_c_lod1.res" id="2_qd3xq"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/cottage_c_lod2.res" id="3_iuj1i"]
+
+[node name="cottage_c" type="Node3D" unique_id=98971728]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=1100723693]
+mesh = ExtResource("1_cy0cb")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=221490400]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_qd3xq")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=444675779]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_iuj1i")

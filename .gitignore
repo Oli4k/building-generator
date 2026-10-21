@@ -1,0 +1,7 @@
+.godot/
+.vscode/
+generated_houses/
+*.translation
+.DS_Store
+tests/*.png
+tests/*.png.import

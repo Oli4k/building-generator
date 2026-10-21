@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/chalet_a_lod0.res" id="1_mseb7"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/chalet_a_lod1.res" id="2_e0stw"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/chalet_a_lod2.res" id="3_kokhu"]
+
+[node name="chalet_a" type="Node3D" unique_id=2119872570]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=4047853]
+mesh = ExtResource("1_mseb7")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=1836780610]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_e0stw")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1090718945]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_kokhu")

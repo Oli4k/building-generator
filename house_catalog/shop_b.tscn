@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/shop_b_lod0.res" id="1_dynvj"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/shop_b_lod1.res" id="2_qa1de"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/shop_b_lod2.res" id="3_3x730"]
+
+[node name="shop_b" type="Node3D" unique_id=1560073049]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=764662713]
+mesh = ExtResource("1_dynvj")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=579756503]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_qa1de")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=531990245]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_3x730")

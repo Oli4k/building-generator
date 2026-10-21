@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/church_a_lod0.res" id="1_gr4kc"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/church_a_lod1.res" id="2_u0okd"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/church_a_lod2.res" id="3_khcrb"]
+
+[node name="church_a" type="Node3D" unique_id=1099770288]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=615870903]
+mesh = ExtResource("1_gr4kc")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=1857111339]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_u0okd")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1894118260]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_khcrb")

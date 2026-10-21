@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/office_a_lod0.res" id="1_djqgm"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/office_a_lod1.res" id="2_07toa"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/office_a_lod2.res" id="3_h8nxy"]
+
+[node name="office_a" type="Node3D" unique_id=1994037669]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=966390819]
+mesh = ExtResource("1_djqgm")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=1730717503]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_07toa")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=461034005]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_h8nxy")

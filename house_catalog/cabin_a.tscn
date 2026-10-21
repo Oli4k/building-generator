@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/cabin_a_lod0.res" id="1_wrcfv"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/cabin_a_lod1.res" id="2_setwv"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/cabin_a_lod2.res" id="3_auu2f"]
+
+[node name="cabin_a" type="Node3D" unique_id=1150170853]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=981022255]
+mesh = ExtResource("1_wrcfv")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=39017126]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_setwv")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1527407488]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_auu2f")
