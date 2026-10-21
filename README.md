@@ -1,4 +1,4 @@
-# House Generator
+# Building Generator
 
 Godot 4.7 editor plugin that builds houses, shops, offices, and churches from a property resource and bakes them into meshes you can scatter by hand or with [Terrain3D](https://github.com/TokisanGames/Terrain3D).
 
