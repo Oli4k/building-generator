@@ -36,7 +36,7 @@ A chalet, with a low eave and a porch.
 
 ![1960s church](docs/images/church.png)
 
-A 1960s church. The shed roof rises toward a campanile, and the cross size follows the seed.
+A 1960s style church. The shed roof rises toward a campanile, and the cross size follows the seed.
 
 Run the project to walk around `demo/village.tscn`. It contains every building type.
 
@@ -101,7 +101,7 @@ HouseGenerator.scatter(some_node, {
 })
 ```
 
-## Terrain3D
+## Use with Terrain3D
 
 1. Generate a few variant scenes. Each variant is one mesh asset. Terrain3D cannot combine different houses into one MultiMesh.
 2. In the Terrain3D asset dock, add a mesh and set **Scene File** to the `.tscn`.
@@ -122,7 +122,7 @@ Porch posts are spaced about 2.4 m apart. On a `GeneratedHouse`, each post is ex
 
 ## Catalog
 
-Terrain3D has 32 mesh slots. Vegetation already uses some of them, so a scenery wants a small set of repeated buildings rather than one mesh per building. **Bake catalog** writes `res://house_catalog`. The set is cabin, cottage, farmhouse, shed, and chalet, plus a shop with a glazed front, a flat-roofed office, and three churches. Townhouses and villas stay out. Each file is a thin scene whose children are `LOD0`, `LOD1`, and `LOD2`, pointing at external meshes. There is no house script on those scenes, so another project can load them without this addon. Shadows are on `LOD0` only. `LOD1` is the approach mesh. `LOD2` is the far mesh.
+**Bake catalog** writes `res://house_catalog`. The set is cabin, cottage, farmhouse, shed, and chalet, plus a shop with a glazed front, a flat-roofed office, and three churches. Townhouses and villas stay out. Each file is a thin scene whose children are `LOD0`, `LOD1`, and `LOD2`, pointing at external meshes. There is no house script on those scenes, so another project can load them without this addon. Shadows are on `LOD0` only. `LOD1` is the approach mesh. `LOD2` is the far mesh.
 
 Wall and roof colors are vertex colors on one shared material, so Terrain3D's instance tint can shift copies of one asset. The same material samples a tiled grain per surface (plaster, tile, stone, glass) and a matching roughness. Vertex color darkens the ground line, the corners, and the underside of the eaves. The near catalog mesh also uses fewer windows and skips the window frames.
 
