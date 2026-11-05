@@ -9,7 +9,7 @@ extends RefCounted
 
 const TILE_PX := 128
 const LAYER_COUNT := 9
-const _LAYER_REVISION := 2
+const _LAYER_REVISION := 3
 const CATALOG_FOLDER := "res://house_catalog"
 const _WALL := 0
 const _ROOF := 1
@@ -38,7 +38,9 @@ static func editor_material(surface: int, color: Color, glass: bool) -> Standard
 	mat.roughness_texture = _roughness_tiles[surface]
 	mat.vertex_color_use_as_albedo = true
 	if glass:
-		mat.metallic = 0.45
+		mat.metallic = 0.62
+		mat.roughness = 0.08
+		mat.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_ALPHA
 		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	elif surface == _METAL or surface == _METAL_ROOF:
 		mat.metallic = 0.8
@@ -161,7 +163,13 @@ static func _grain(surface: int, x: int, y: int) -> float:
 			var streak := 0.9 if x % 8 == 0 else 1.0
 			return (0.9 + fine * 0.06) * streak
 		_GLASS:
-			return 0.97 + fine * 0.02
+			# Soft sky falloff + diagonal sheen so panes read as reflective glass.
+			var u := (float(x) + 0.5) / float(TILE_PX)
+			var v := (float(y) + 0.5) / float(TILE_PX)
+			var sky := lerpf(1.0, 0.58, v)
+			var sheen := exp(-pow((u * 0.75 + v - 0.95) / 0.22, 2.0)) * 0.48
+			var rim := exp(-pow((u - 0.18) / 0.55, 2.0)) * exp(-pow((v - 0.22) / 0.4, 2.0)) * 0.16
+			return clampf(sky * 0.78 + sheen + rim + fine * 0.02, 0.48, 1.0)
 		_CHIMNEY:
 			return 0.76 if _brick_mortar(x, y) else 0.92 + fine * 0.06
 		_TRIM:
@@ -186,7 +194,10 @@ static func _rough(surface: int, x: int, y: int) -> float:
 		_DOOR:
 			return 0.46 + fine * 0.06
 		_GLASS:
-			return 0.07 + fine * 0.02
+			var u := (float(x) + 0.5) / float(TILE_PX)
+			var v := (float(y) + 0.5) / float(TILE_PX)
+			var sheen := exp(-pow((u * 0.75 + v - 0.95) / 0.22, 2.0))
+			return lerpf(0.16, 0.03, sheen) + fine * 0.015
 		_CHIMNEY:
 			return 0.9
 		_METAL, _METAL_ROOF:
