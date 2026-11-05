@@ -97,7 +97,7 @@ static func _make_houses(parent: Node3D, settings: Dictionary) -> Array[Generate
 	var styles: Array = settings.get("styles", [])
 	if styles.is_empty():
 		for style in HouseProperties.Style.values():
-			if style == HouseProperties.Style.CHURCH or style == HouseProperties.Style.SHOP or style == HouseProperties.Style.OFFICE:
+			if style == HouseProperties.Style.CHURCH or style == HouseProperties.Style.SHOP or style == HouseProperties.Style.OFFICE or style == HouseProperties.Style.HANGAR or style == HouseProperties.Style.WAREHOUSE or style == HouseProperties.Style.STATION:
 				continue
 			styles.append(style)
 	var rng := RandomNumberGenerator.new()

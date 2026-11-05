@@ -1,6 +1,6 @@
 # Building Generator
 
-Godot 4.7 editor plugin that builds houses, shops, offices, and churches from a property resource and bakes them into meshes you can scatter by hand or with [Terrain3D](https://github.com/TokisanGames/Terrain3D).
+Godot 4.7 editor plugin that builds houses, shops, offices, churches, and small stations from a property resource and bakes them into meshes you can scatter by hand or with [Terrain3D](https://github.com/TokisanGames/Terrain3D).
 
 ![The demo village](docs/images/village.png)
 
@@ -12,17 +12,17 @@ Licensed under the [MIT License](LICENSE).
 
 Generation runs in the editor. A game only draws the baked meshes.
 
-The scatter set is 18 variants in `house_catalog`. They share one material and two 512×256 textures, an albedo and a roughness, so every copy of a variant is one draw call. Shadows come from `LOD0` only.
+The scatter set is 26 variants in `house_catalog`. They share one material and two 512×384 textures, an albedo and a roughness, so every copy of a variant is one draw call. Shadows come from `LOD0` only.
 
 | Level | Contents | Triangles | Shadows |
 | --- | --- | --- | --- |
-| LOD0 | Openings, porch, door frame | 312–1,992 | on |
-| LOD1 | Solid walls, porch roof | 48–157 | off |
+| LOD0 | Openings, porch, door frame | 144–1,992 | on |
+| LOD1 | Solid walls, porch roof | 48–172 | off |
 | LOD2 | Outer walls and roof | 10–53 | off |
 
-Houses, shops, and churches are 312–990 triangles on `LOD0`. The two offices are 1,430 and 1,992. `LOD2` is 10–22 triangles, except the churches, which keep the tower and cross at 48–53. Faces do not share vertices, so the vertex buffer is three times the triangle count.
+Houses, shops, stations, and churches are 312–990 triangles on `LOD0`. An alpine chalet is 1,256 or 1,588. A hangar or warehouse is 144 without the entry unit and 312 with it. The two offices are 1,430 and 1,992. `LOD2` is 10–22 triangles, except the churches, which keep the tower and cross at 48–53. Faces do not share vertices, so the vertex buffer is three times the triangle count.
 
-A `GeneratedHouse`, and any bake outside the catalog, uses one material per surface. The near mesh has up to seven (wall, roof, trim, foundation, door, glass, chimney) and runs from 504 to 5,160 triangles, because it keeps window frames and more window columns. Its `LOD1` and `LOD2` triangle counts match the table. It also builds a box collider over the footprint and the floors. Catalog scenes are render meshes only.
+A `GeneratedHouse`, and any bake outside the catalog, uses one material per surface. The near mesh has up to seven (wall, roof, trim, foundation, door, glass, chimney). A plain hangar is 144 triangles and the busiest office is 5,160, because that office keeps window frames and more window columns. Its `LOD1` and `LOD2` triangle counts match the table. It also builds a box collider over the footprint and the floors. Catalog scenes are render meshes only.
 
 ## Examples
 
@@ -69,11 +69,19 @@ Styles:
 | Villa | Large ground-floor windows |
 | Shed | One small window |
 | Chalet | Horizontal windows, wider upstairs |
+| Alpine | Stone ground floor, timber above, balcony under a shallow cross roof (narrow front gable) |
 | Shop | Glazed shop front, rooms above |
 | Office | Regular grid of large panes |
 | Church | Chapel with a west tower, the same chapel with a side aisle, or a 1960s hall |
+| Hangar | Low metal hall, garage door across most of the front |
+| Warehouse | Taller metal hall, truck door, entry unit more often |
+| Station | Long single story, tall windows, canopy along the front |
 
-The church plan comes from the seed.
+The church plan comes from the seed and is stored on `church_plan`. **Annex** adds the small entry unit on a hangar or warehouse: a door and one window, with the hall left blank. The seed turns it on less often for hangars than for warehouses.
+
+### Extending styles
+
+Parameter-only styles (new cottage-like ranges and colors) go in `HouseRecipes` — no mesh code. New silhouettes need a `HouseBuildContext.Composition` entry or a new element under `addons/house_generator/elements/`, plus a recipe that fills `HouseProperties`. LOD feature gates live in `HouseLodPolicy`. Catalog rows stay `(name, style, seed[, annex])` in `HouseCatalog.VARIANTS`.
 
 ## A batch of scenes
 
@@ -122,9 +130,9 @@ Porch posts are spaced about 2.4 m apart. On a `GeneratedHouse`, each post is ex
 
 ## Catalog
 
-**Bake catalog** writes `res://house_catalog`. The set is cabin, cottage, farmhouse, shed, and chalet, plus a shop with a glazed front, a flat-roofed office, and three churches. Townhouses and villas stay out. Each file is a thin scene whose children are `LOD0`, `LOD1`, and `LOD2`, pointing at external meshes. There is no house script on those scenes, so another project can load them without this addon. Shadows are on `LOD0` only. `LOD1` is the approach mesh. `LOD2` is the far mesh.
+**Bake catalog** writes `res://house_catalog`. The set is cabin, cottage, farmhouse, shed, chalet, and alpine chalet, plus a shop with a glazed front, a flat-roofed office, three churches, two hangars, two warehouses, and two stations. Townhouses and villas stay out. Each file is a thin scene whose children are `LOD0`, `LOD1`, and `LOD2`, pointing at external meshes. There is no house script on those scenes, so another project can load them without this addon. Shadows are on `LOD0` only. `LOD1` is the approach mesh. `LOD2` is the far mesh.
 
-Wall and roof colors are vertex colors on one shared material, so Terrain3D's instance tint can shift copies of one asset. The same material samples a tiled grain per surface (plaster, tile, stone, glass) and a matching roughness. Vertex color darkens the ground line, the corners, and the underside of the eaves. The near catalog mesh also uses fewer windows and skips the window frames.
+Wall and roof colors are vertex colors on one shared material, so Terrain3D's instance tint can shift copies of one asset. The same material samples a tiled grain per surface (plaster, tile, stone, corrugated metal, glass) and a matching roughness. Vertex color darkens the ground line, the corners, and the underside of the eaves. The near catalog mesh also uses fewer windows and skips the window frames.
 
 ```gdscript
 HouseCatalog.save_catalog("res://house_catalog")
@@ -135,7 +143,7 @@ if fit.ok:
     terrain.instancer.add_transforms(mesh_id_for(fit.scene), [placed])
 ```
 
-`fit_footprint` returns the footprint width, depth, and yaw, plus the closest catalog variant. Yaw follows the long edge, and the front stays on local -Z. The mesh is not stretched. A `building=church` outline uses a church, `office` uses an office, and `retail` or `shop` uses a shop. Other outlines stay on the house variants, so a cottage is not replaced by an office of a similar size. Courtyards, terraces, building parts, and large halls come back as a rejection (`ok` false, with a `reason`) and should stay on the extruded OSM mesh.
+`fit_footprint` returns the footprint width, depth, and yaw, plus the closest catalog variant. Yaw follows the long edge, and the front stays on local -Z. The mesh is not stretched. A `building=church` outline uses a church, `office` uses an office, `retail` or `shop` uses a shop, `hangar` or `warehouse` uses that style, and `train_station` uses a station. Other outlines stay on the house variants, so a cottage is not replaced by an office, a hangar, or a station of a similar size. Courtyards, terraces, building parts, and outlines wider than 22 m, deeper than 16 m, or over 250 m² come back as a rejection (`ok` false, with a `reason`) and should stay on the extruded OSM mesh.
 
 `ground_on_heightmap` reads the height image the same way scenery generation does. The house stays upright. Its origin sits on the lowest sample under the foundation. If the height change is greater than that variant's foundation, the uphill floor would be buried and the fit is rejected. The same happens when the porch drops more than the 1.5 m skirt.
 

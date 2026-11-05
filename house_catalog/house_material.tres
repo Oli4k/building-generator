@@ -9,4 +9,4 @@ render_priority = 0
 shader = ExtResource("1_6hl11")
 shader_parameter/albedo_atlas = ExtResource("2_m1xie")
 shader_parameter/roughness_atlas = ExtResource("3_ulllm")
-shader_parameter/atlas_grid = Vector2(4, 2)
+shader_parameter/atlas_grid = Vector2(4, 3)

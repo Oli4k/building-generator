@@ -25,10 +25,10 @@ func _check_chalet() -> bool:
 		if entry.width + 0.01 < entry.depth:
 			push_error("%s is deeper than it is wide" % entry.name)
 			return true
-	if names.size() < 8 or names.size() > 20:
+	if names.size() < 8 or names.size() > 32:
 		push_error("catalog has %d variants" % names.size())
 		return true
-	for required in ["church_a", "shop_a", "office_a"]:
+	for required in ["church_a", "shop_a", "office_a", "hangar_a", "warehouse_a", "alpine_a", "station_a"]:
 		if not names.has(required):
 			push_error("catalog is missing %s" % required)
 			return true
@@ -162,7 +162,39 @@ func _check_civic() -> bool:
 				push_error("office tag was not matched: %s" % tagged)
 				return true
 			break
-	print("church, shop, and office ok")
+	for entry in HouseCatalog.variants():
+		if entry.style == "hangar":
+			var tagged := HouseCatalog.fit_footprint(_rect(Vector2(30, 10), entry.width, entry.depth, 0.3), {"building": "hangar"})
+			if not tagged.ok or not str(tagged.name).begins_with("hangar"):
+				push_error("hangar tag was not matched: %s" % tagged)
+				return true
+			var plain := HouseCatalog.fit_footprint(_rect(Vector2(30, 10), entry.width, entry.depth, 0.3))
+			if plain.ok and str(plain.name).begins_with("hangar"):
+				push_error("untagged footprint used a hangar: %s" % plain)
+				return true
+			break
+	for entry in HouseCatalog.variants():
+		if entry.style == "warehouse":
+			var tagged := HouseCatalog.fit_footprint(_rect(Vector2(-10, 8), entry.width, entry.depth, -0.2), {"building": "warehouse"})
+			if not tagged.ok or not str(tagged.name).begins_with("warehouse"):
+				push_error("warehouse tag was not matched: %s" % tagged)
+				return true
+			break
+	if HouseCatalog.fit_footprint(_rect(Vector2.ZERO, 40, 18, 0), {"building": "hangar"}).reason != "too_large":
+		push_error("oversized hangar was accepted")
+		return true
+	for entry in HouseCatalog.variants():
+		if entry.style == "station":
+			var tagged := HouseCatalog.fit_footprint(_rect(Vector2(12, -4), entry.width, entry.depth, 0.2), {"building": "train_station"})
+			if not tagged.ok or not str(tagged.name).begins_with("station"):
+				push_error("train_station tag was not matched: %s" % tagged)
+				return true
+			var plain := HouseCatalog.fit_footprint(_rect(Vector2(12, -4), entry.width, entry.depth, 0.2))
+			if plain.ok and str(plain.name).begins_with("station"):
+				push_error("untagged footprint used a station: %s" % plain)
+				return true
+			break
+	print("church, shop, office, hangar, warehouse, and station ok")
 	return false
 
 

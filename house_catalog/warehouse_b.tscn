@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/warehouse_b_lod0.res" id="1_8rsrh"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/warehouse_b_lod1.res" id="2_hedhq"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/warehouse_b_lod2.res" id="3_pk0hm"]
+
+[node name="warehouse_b" type="Node3D" unique_id=441615880]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=1811549645]
+mesh = ExtResource("1_8rsrh")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=304096986]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_hedhq")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1185396732]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_pk0hm")

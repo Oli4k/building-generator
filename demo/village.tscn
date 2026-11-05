@@ -19,10 +19,10 @@ tonemap_mode = 2
 albedo_color = Color(0.42745098, 0.47843137, 0.32156864, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ik1xl"]
-size = Vector2(137.35384, 106.48528)
+size = Vector2(137.35384, 151.58792)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mukvb"]
-size = Vector3(137.35384, 0.2, 106.48528)
+size = Vector3(137.35384, 0.2, 151.58792)
 
 [sub_resource type="Resource" id="Resource_lccox"]
 resource_local_to_scene = true
@@ -498,6 +498,7 @@ resource_local_to_scene = true
 script = ExtResource("2_xbkyd")
 style = 7
 seed = 13
+church_plan = 1
 width = 10.316395
 depth = 7.079569
 floor_height = 3.7815263
@@ -523,6 +524,7 @@ resource_local_to_scene = true
 script = ExtResource("2_xbkyd")
 style = 7
 seed = 14
+church_plan = 2
 width = 14.96097
 depth = 9.7360935
 floor_height = 3.3215768
@@ -544,130 +546,359 @@ door_color = Color(0.22745098, 0.16470589, 0.13333334, 1)
 foundation_color = Color(0.7176471, 0.69803923, 0.6666667, 1)
 glass_color = Color(0.77254903, 0.8352941, 0.83137256, 1)
 
-[node name="Village" type="Node3D" unique_id=1475731840]
+[sub_resource type="Resource" id="Resource_mh80x"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 10
+seed = 2
+width = 19.960089
+depth = 12.298418
+floor_height = 3.853368
+foundation_height = 0.20367253
+roof_pitch = 0.25584894
+roof_overhang = 0.5518003
+chimney = false
+window_walls = 0
+window_omit = 0.0
+wall_color = Color(0.47843137, 0.3254902, 0.2509804, 1)
+roof_color = Color(0.24313726, 0.21960784, 0.19607843, 1)
+trim_color = Color(0.627451, 0.47058824, 0.3764706, 1)
+door_color = Color(0.17254902, 0.13333334, 0.10980392, 1)
+foundation_color = Color(0.36862746, 0.36078432, 0.34509805, 1)
+glass_color = Color(0.5568628, 0.6745098, 0.72156864, 1)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1643650591]
+[sub_resource type="Resource" id="Resource_ovlga"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 10
+seed = 11
+width = 20.39317
+depth = 12.024132
+floor_height = 3.8737836
+foundation_height = 0.1977474
+roof_pitch = 0.16206393
+roof_overhang = 0.5188488
+chimney = false
+chimney_side = 0
+annex = true
+window_walls = 0
+window_omit = 0.0
+wall_color = Color(0.24313726, 0.26666668, 0.28235295, 1)
+roof_color = Color(0.16470589, 0.18039216, 0.19607843, 1)
+trim_color = Color(0.41568628, 0.4392157, 0.45490196, 1)
+door_color = Color(0.08627451, 0.09411765, 0.101960786, 1)
+foundation_color = Color(0.36862746, 0.36078432, 0.34509805, 1)
+glass_color = Color(0.5568628, 0.6745098, 0.72156864, 1)
+
+[sub_resource type="Resource" id="Resource_cu12b"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 11
+seed = 4
+width = 20.100708
+depth = 11.208354
+floor_height = 6.065546
+foundation_height = 0.23882723
+roof_pitch = 0.35380688
+roof_overhang = 0.4738773
+chimney = false
+window_walls = 0
+window_omit = 0.0
+wall_color = Color(0.54509807, 0.5764706, 0.6039216, 1)
+roof_color = Color(0.36078432, 0.39607844, 0.42352942, 1)
+trim_color = Color(0.65882355, 0.6901961, 0.7137255, 1)
+door_color = Color(0.18039216, 0.20392157, 0.21960784, 1)
+foundation_color = Color(0.36862746, 0.36078432, 0.34509805, 1)
+glass_color = Color(0.5568628, 0.6745098, 0.72156864, 1)
+
+[sub_resource type="Resource" id="Resource_vlbd2"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 11
+seed = 15
+width = 18.263775
+depth = 10.700952
+floor_height = 6.0347433
+foundation_height = 0.24267298
+roof_pitch = 0.4041634
+roof_overhang = 0.5061421
+chimney = false
+annex = true
+window_walls = 0
+window_omit = 0.0
+wall_color = Color(0.16470589, 0.23529412, 0.32941177, 1)
+roof_color = Color(0.22745098, 0.26666668, 0.29803923, 1)
+trim_color = Color(0.36078432, 0.4392157, 0.53333336, 1)
+door_color = Color(0.078431375, 0.09411765, 0.1254902, 1)
+foundation_color = Color(0.36862746, 0.36078432, 0.34509805, 1)
+glass_color = Color(0.5568628, 0.6745098, 0.72156864, 1)
+
+[sub_resource type="Resource" id="Resource_bwgtr"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 12
+seed = 3
+width = 12.3597
+depth = 7.8067493
+floors = 2
+floor_height = 2.6599061
+foundation_height = 0.5455179
+roof_pitch = 0.40171397
+roof_overhang = 1.8409059
+window_columns = 3
+window_width = 1.22
+window_height = 0.78
+window_pattern = 2
+window_variation = 0.6
+wall_color = Color(0.41568628, 0.27450982, 0.19607843, 1)
+roof_color = Color(0.14117648, 0.1882353, 0.21960784, 1)
+trim_color = Color(0.83137256, 0.7607843, 0.6431373, 1)
+door_color = Color(0.22745098, 0.14117648, 0.09411765, 1)
+foundation_color = Color(0.6039216, 0.5803922, 0.54901963, 1)
+chimney_color = Color(0.41568628, 0.39215687, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_ceuln"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 12
+seed = 5
+width = 12.840208
+depth = 7.705965
+floors = 3
+floor_height = 2.8451757
+foundation_height = 0.512232
+roof_pitch = 0.4024023
+roof_overhang = 1.9973246
+chimney = false
+window_columns = 3
+window_width = 1.22
+window_height = 0.78
+window_pattern = 2
+window_variation = 0.6
+wall_color = Color(0.41568628, 0.27450982, 0.19607843, 1)
+roof_color = Color(0.14117648, 0.1882353, 0.21960784, 1)
+trim_color = Color(0.83137256, 0.7607843, 0.6431373, 1)
+door_color = Color(0.22745098, 0.14117648, 0.09411765, 1)
+foundation_color = Color(0.4862745, 0.47058824, 0.44705883, 1)
+chimney_color = Color(0.41568628, 0.39215687, 0.3764706, 1)
+
+[sub_resource type="Resource" id="Resource_w4jmp"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 13
+seed = 8
+width = 13.690638
+depth = 7.3846602
+floor_height = 3.4687274
+foundation_height = 0.39084473
+roof_pitch = 0.4456913
+roof_overhang = 0.48462707
+chimney = false
+porch = true
+porch_depth = 2.7210948
+window_columns = 5
+window_omit = 0.0
+window_width = 0.78
+window_height = 1.62
+door_width = 1.05
+door_height = 2.2
+wall_color = Color(0.6392157, 0.40784314, 0.34509805, 1)
+roof_color = Color(0.2901961, 0.21960784, 0.20392157, 1)
+trim_color = Color(0.9372549, 0.9019608, 0.84705883, 1)
+door_color = Color(0.22745098, 0.17254902, 0.14117648, 1)
+foundation_color = Color(0.43137255, 0.41568628, 0.39215687, 1)
+
+[sub_resource type="Resource" id="Resource_udp5i"]
+resource_local_to_scene = true
+script = ExtResource("2_xbkyd")
+style = 13
+seed = 19
+width = 15.972305
+depth = 6.8908763
+floor_height = 3.5780313
+foundation_height = 0.37622485
+roof_pitch = 0.52928996
+roof_overhang = 0.40194684
+chimney = false
+chimney_side = 0
+porch = true
+porch_depth = 2.7202194
+window_columns = 5
+window_omit = 0.0
+window_width = 0.78
+window_height = 1.62
+door_width = 1.05
+door_height = 2.2
+wall_color = Color(0.5529412, 0.30588236, 0.27450982, 1)
+roof_color = Color(0.43137255, 0.19607843, 0.17254902, 1)
+trim_color = Color(0.9372549, 0.9019608, 0.84705883, 1)
+door_color = Color(0.22745098, 0.17254902, 0.14117648, 1)
+foundation_color = Color(0.43137255, 0.41568628, 0.39215687, 1)
+
+[node name="Village" type="Node3D" unique_id=858426373]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=998532010]
 environment = SubResource("Environment_6l1mx")
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=385831034]
-transform = Transform3D(-0.7893521, 0.23992342, -0.56511945, 0, 0.9204788, 0.3907925, 0.6139407, 0.30847287, -0.72658193, -36.873844, 29.499075, -47.409225)
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=463226912]
+transform = Transform3D(-0.7893521, 0.24370272, -0.5634999, 0, 0.91784096, 0.3969483, 0.6139407, 0.313332, -0.7244997, -41.85577, 33.484615, -53.81456)
 light_energy = 1.3
 shadow_enabled = true
 shadow_bias = 0.04
 shadow_normal_bias = 0.8
 
-[node name="Ground" type="MeshInstance3D" parent="." unique_id=1075684768]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=103348169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
 material_override = SubResource("StandardMaterial3D_td4fk")
 mesh = SubResource("PlaneMesh_ik1xl")
 
-[node name="GroundBody" type="StaticBody3D" parent="." unique_id=2104077023]
+[node name="GroundBody" type="StaticBody3D" parent="." unique_id=1708868107]
 
-[node name="Shape" type="CollisionShape3D" parent="GroundBody" unique_id=952802958]
+[node name="Shape" type="CollisionShape3D" parent="GroundBody" unique_id=516143729]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("BoxShape3D_mukvb")
 
-[node name="cabin_2" type="Node3D" parent="." unique_id=381820672]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.37323, 0, -33.921337)
+[node name="cabin_2" type="Node3D" parent="." unique_id=963054837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.37323, 0, -56.472656)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_lccox")
 
-[node name="cabin_11" type="Node3D" parent="." unique_id=913270823]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.143618, 0, -33.39202)
+[node name="cabin_11" type="Node3D" parent="." unique_id=902363433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.143618, 0, -55.94334)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_76kjd")
 
-[node name="cottage_4" type="Node3D" parent="." unique_id=1413602909]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.136903, 0, -34.10288)
+[node name="cottage_4" type="Node3D" parent="." unique_id=1452828519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.136903, 0, -56.654198)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_a87m8")
 
-[node name="cottage_9" type="Node3D" parent="." unique_id=1860493261]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8857791, 0, -34.040127)
+[node name="cottage_9" type="Node3D" parent="." unique_id=207790323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8857791, 0, -56.591442)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_w2fld")
 
-[node name="cottage_15" type="Node3D" parent="." unique_id=807396670]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.407187, 0, -33.191765)
+[node name="cottage_15" type="Node3D" parent="." unique_id=993912410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.407187, 0, -55.743084)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_j2l22")
 
-[node name="shed_2" type="Node3D" parent="." unique_id=335699033]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.288637, 0, -34.977146)
+[node name="shed_2" type="Node3D" parent="." unique_id=499690306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.288637, 0, -57.528465)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_y2fke")
 
-[node name="shed_8" type="Node3D" parent="." unique_id=783599924]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.133747, 0, -34.90031)
+[node name="shed_8" type="Node3D" parent="." unique_id=1178396887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.133747, 0, -57.45163)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_55f48")
 
-[node name="chalet_5" type="Node3D" parent="." unique_id=908249753]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.090096, 0, -14.931889)
+[node name="chalet_5" type="Node3D" parent="." unique_id=1846520004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.090096, 0, -37.483204)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_7tv1t")
 
-[node name="chalet_12" type="Node3D" parent="." unique_id=1463446557]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.947643, 0, -16.305883)
+[node name="chalet_12" type="Node3D" parent="." unique_id=1012452646]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.947643, 0, -38.8572)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_ii5o3")
 
-[node name="farmhouse_7" type="Node3D" parent="." unique_id=1564365522]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.654235, 0, -13.787613)
+[node name="farmhouse_7" type="Node3D" parent="." unique_id=1065639864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.654235, 0, -36.33893)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_dd4f7")
 
-[node name="farmhouse_15" type="Node3D" parent="." unique_id=1594389459]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.821488, 0, -14.575838)
+[node name="farmhouse_15" type="Node3D" parent="." unique_id=142829819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.821488, 0, -37.127155)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_0xf5w")
 
-[node name="townhouse_8" type="Node3D" parent="." unique_id=794185752]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.325329, 0, -15.30748)
+[node name="townhouse_8" type="Node3D" parent="." unique_id=1224904197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.325329, 0, -37.858795)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_gxodv")
 
-[node name="villa_6" type="Node3D" parent="." unique_id=1527938248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.384075, 0, -12.245167)
+[node name="villa_6" type="Node3D" parent="." unique_id=831158539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.384075, 0, -34.796482)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_6bbts")
 
-[node name="shop_6" type="Node3D" parent="." unique_id=1154098182]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.086948, 0, 8.413696)
+[node name="shop_6" type="Node3D" parent="." unique_id=2061956147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.086948, 0, -14.137621)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_omrfs")
 
-[node name="shop_15" type="Node3D" parent="." unique_id=2132110827]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.462831, 0, 8.270622)
+[node name="shop_15" type="Node3D" parent="." unique_id=1916833517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.462831, 0, -14.280695)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_wb7rn")
 
-[node name="office_17" type="Node3D" parent="." unique_id=979636692]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.540759, 0, 9.2029915)
+[node name="office_17" type="Node3D" parent="." unique_id=1197778989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.540759, 0, -13.348326)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_76igp")
 
-[node name="office_6" type="Node3D" parent="." unique_id=1998936492]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.116947, 0, 9.793652)
+[node name="office_6" type="Node3D" parent="." unique_id=1926264454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.116947, 0, -12.757666)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_mqu2u")
 
-[node name="church_12" type="Node3D" parent="." unique_id=1401315583]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.415745, 0, 28.423244)
+[node name="church_12" type="Node3D" parent="." unique_id=709617042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.415745, 0, 5.8719273)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_t0ou8")
 
-[node name="church_13" type="Node3D" parent="." unique_id=2012231552]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666354, 0, 28.962894)
+[node name="church_13" type="Node3D" parent="." unique_id=876471554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666354, 0, 6.411577)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_teadv")
 
-[node name="church_14" type="Node3D" parent="." unique_id=506000722]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.799713, 0, 30.805553)
+[node name="church_14" type="Node3D" parent="." unique_id=1687071876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.799713, 0, 8.254236)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_juq56")
 
-[node name="Camera" type="Camera3D" parent="." unique_id=150164606]
-transform = Transform3D(-1, -5.2192515e-08, 1.4168864e-07, 0, 0.9383615, 0.3456554, -1.509958e-07, 0.3456554, -0.9383615, 0, 50.56984, -126.42461)
+[node name="hangar_2" type="Node3D" parent="." unique_id=275446562]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.585197, 0, 31.392328)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_mh80x")
+
+[node name="hangar_11" type="Node3D" parent="." unique_id=1083193875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.337923, 0, 31.222239)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_ovlga")
+
+[node name="warehouse_4" type="Node3D" parent="." unique_id=1120005460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.602896, 0, 30.76938)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_cu12b")
+
+[node name="warehouse_15" type="Node3D" parent="." unique_id=21751716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.76516, 0, 30.547937)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_vlbd2")
+
+[node name="alpine_3" type="Node3D" parent="." unique_id=1029060209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.135475, 0, 53.83762)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_bwgtr")
+
+[node name="alpine_5" type="Node3D" parent="." unique_id=376940226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.69729, 0, 53.943653)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_ceuln")
+
+[node name="station_8" type="Node3D" parent="." unique_id=1476249760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.050083, 0, 54.50677)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_w4jmp")
+
+[node name="station_19" type="Node3D" parent="." unique_id=1298718343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.76813, 0, 54.259)
+script = ExtResource("1_cnm1h")
+properties = SubResource("Resource_udp5i")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=880959288]
+transform = Transform3D(-1, -5.266149e-08, 1.4151502e-07, 0, 0.9372116, 0.3487613, -1.509958e-07, 0.3487613, -0.9372116, 0, 57.4022, -143.5055)
 current = true
 fov = 48.0

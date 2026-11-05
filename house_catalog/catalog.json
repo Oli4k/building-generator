@@ -215,6 +215,102 @@
 			"style": "office",
 			"wall_color": "b7c0c6",
 			"width": 15.9267110824585
+		},
+		{
+			"depth": 12.2984180450439,
+			"foundation_height": 0.203672528266907,
+			"name": "hangar_a",
+			"porch_depth": 0.0,
+			"roof_color": "3e3832",
+			"scene": "res://house_catalog/hangar_a.tscn",
+			"seed": 2,
+			"style": "hangar",
+			"wall_color": "7a5340",
+			"width": 19.9600887298584
+		},
+		{
+			"depth": 12.0241317749023,
+			"foundation_height": 0.197747394442558,
+			"name": "hangar_b",
+			"porch_depth": 0.0,
+			"roof_color": "2a2e32",
+			"scene": "res://house_catalog/hangar_b.tscn",
+			"seed": 11,
+			"style": "hangar",
+			"wall_color": "3e4448",
+			"width": 20.3931694030762
+		},
+		{
+			"depth": 11.2083539962769,
+			"foundation_height": 0.238827228546143,
+			"name": "warehouse_a",
+			"porch_depth": 0.0,
+			"roof_color": "5c656c",
+			"scene": "res://house_catalog/warehouse_a.tscn",
+			"seed": 4,
+			"style": "warehouse",
+			"wall_color": "8b939a",
+			"width": 20.1007080078125
+		},
+		{
+			"depth": 10.7009515762329,
+			"foundation_height": 0.242672979831696,
+			"name": "warehouse_b",
+			"porch_depth": 0.0,
+			"roof_color": "3a444c",
+			"scene": "res://house_catalog/warehouse_b.tscn",
+			"seed": 15,
+			"style": "warehouse",
+			"wall_color": "2a3c54",
+			"width": 18.2637748718262
+		},
+		{
+			"depth": 7.80674934387207,
+			"foundation_height": 0.545517921447754,
+			"name": "alpine_a",
+			"porch_depth": 0.0,
+			"roof_color": "243038",
+			"scene": "res://house_catalog/alpine_a.tscn",
+			"seed": 3,
+			"style": "alpine",
+			"wall_color": "6a4632",
+			"width": 12.3597002029419
+		},
+		{
+			"depth": 7.70596504211426,
+			"foundation_height": 0.512232005596161,
+			"name": "alpine_b",
+			"porch_depth": 0.0,
+			"roof_color": "243038",
+			"scene": "res://house_catalog/alpine_b.tscn",
+			"seed": 5,
+			"style": "alpine",
+			"wall_color": "6a4632",
+			"width": 12.8402080535889
+		},
+		{
+			"depth": 7.38466024398804,
+			"foundation_height": 0.390844732522964,
+			"name": "station_a",
+			"porch_depth": 2.72109484672546,
+			"roof_color": "4a3834",
+			"scene": "res://house_catalog/station_a.tscn",
+			"seed": 8,
+			"style": "station",
+			"wall_color": "a36858",
+			"width": 13.690637588501
+		},
+		{
+			"depth": 6.89087629318237,
+			"foundation_height": 0.376224845647812,
+			"name": "station_b",
+			"porch_depth": 2.720219373703,
+			"roof_color": "6e322c",
+			"scene": "res://house_catalog/station_b.tscn",
+			"seed": 19,
+			"style": "station",
+			"wall_color": "8d4e46",
+			"width": 15.9723052978516
 		}
 	],
 	"skirt_m": 1.5

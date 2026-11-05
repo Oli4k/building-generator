@@ -2,13 +2,14 @@
 class_name HouseSurface
 extends RefCounted
 
-## Shared plaster, tile, and stone grain for every house.
+## Shared plaster, tile, stone, and corrugated-metal grain for every house.
 ##
 ## Editor surfaces each sample their own tile. Catalog meshes share one material
 ## and pick a layer with UV2, so Terrain3D can still tint from the vertex color.
 
 const TILE_PX := 128
-const LAYER_COUNT := 7
+const LAYER_COUNT := 9
+const _LAYER_REVISION := 2
 const CATALOG_FOLDER := "res://house_catalog"
 const _WALL := 0
 const _ROOF := 1
@@ -17,12 +18,15 @@ const _FOUNDATION := 3
 const _DOOR := 4
 const _GLASS := 5
 const _CHIMNEY := 6
+const _METAL := 7
+const _METAL_ROOF := 8
 
 static var _albedo_layers: Array[Image] = []
 static var _roughness_layers: Array[Image] = []
 static var _albedo_tiles: Array[Texture2D] = []
 static var _roughness_tiles: Array[Texture2D] = []
 static var _catalog_material: ShaderMaterial
+static var _layer_revision := 0
 
 
 static func editor_material(surface: int, color: Color, glass: bool) -> StandardMaterial3D:
@@ -36,6 +40,8 @@ static func editor_material(surface: int, color: Color, glass: bool) -> Standard
 	if glass:
 		mat.metallic = 0.45
 		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	elif surface == _METAL or surface == _METAL_ROOF:
+		mat.metallic = 0.8
 	return mat
 
 
@@ -62,7 +68,7 @@ static func catalog_material() -> ShaderMaterial:
 	mat.shader = ResourceLoader.load(shader_path, "", ResourceLoader.CACHE_MODE_REPLACE)
 	mat.set_shader_parameter("albedo_atlas", ResourceLoader.load(albedo_path, "", ResourceLoader.CACHE_MODE_REPLACE))
 	mat.set_shader_parameter("roughness_atlas", ResourceLoader.load(roughness_path, "", ResourceLoader.CACHE_MODE_REPLACE))
-	mat.set_shader_parameter("atlas_grid", Vector2(4, 2))
+	mat.set_shader_parameter("atlas_grid", Vector2(4, 3))
 	var mat_path := folder.path_join("house_material.tres")
 	ResourceSaver.save(mat, mat_path)
 	_catalog_material = ResourceLoader.load(mat_path, "", ResourceLoader.CACHE_MODE_REPLACE)
@@ -70,8 +76,16 @@ static func catalog_material() -> ShaderMaterial:
 
 
 static func _ensure_layers() -> void:
-	if not _albedo_tiles.is_empty():
+	# A script reload keeps these static arrays. The old seven tiles would then
+	# miss the corrugated metal layers.
+	if _albedo_tiles.size() == LAYER_COUNT and _roughness_tiles.size() == LAYER_COUNT and _layer_revision == _LAYER_REVISION:
 		return
+	_albedo_layers.clear()
+	_roughness_layers.clear()
+	_albedo_tiles.clear()
+	_roughness_tiles.clear()
+	_catalog_material = null
+	_layer_revision = _LAYER_REVISION
 	var albedo := _albedo_images()
 	var roughness := _roughness_images()
 	for image in albedo:
@@ -83,19 +97,19 @@ static func _ensure_layers() -> void:
 
 
 static func _albedo_images() -> Array[Image]:
-	if _albedo_layers.is_empty():
+	if _albedo_layers.size() != LAYER_COUNT:
 		_build_layers()
 	return _albedo_layers
 
 
 static func _roughness_images() -> Array[Image]:
-	if _roughness_layers.is_empty():
+	if _roughness_layers.size() != LAYER_COUNT:
 		_build_layers()
 	return _roughness_layers
 
 
 static func _pack(layers: Array[Image]) -> Image:
-	var image := Image.create(TILE_PX * 4, TILE_PX * 2, false, Image.FORMAT_RGBA8)
+	var image := Image.create(TILE_PX * 4, TILE_PX * 3, false, Image.FORMAT_RGBA8)
 	image.fill(Color(1, 1, 1, 1))
 	for i in layers.size():
 		var base := _copy_image(layers[i])
@@ -154,6 +168,9 @@ static func _grain(surface: int, x: int, y: int) -> float:
 			return 0.94 + fine * 0.05
 		_WALL:
 			return 0.84 + broad * 0.12 + fine * 0.05
+		_METAL, _METAL_ROOF:
+			var rib := 0.62 if x % 6 == 0 else 1.0
+			return (0.78 + fine * 0.05) * rib
 	return 0.9
 
 
@@ -172,6 +189,8 @@ static func _rough(surface: int, x: int, y: int) -> float:
 			return 0.07 + fine * 0.02
 		_CHIMNEY:
 			return 0.9
+		_METAL, _METAL_ROOF:
+			return 0.58 if x % 6 == 0 else 0.42 + fine * 0.04
 		_:
 			return 0.9 + fine * 0.03
 

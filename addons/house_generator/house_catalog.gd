@@ -36,11 +36,19 @@ const VARIANTS: Array[Dictionary] = [
 	{"name": "shop_b", "style": HouseProperties.Style.SHOP, "seed": 15},
 	{"name": "office_a", "style": HouseProperties.Style.OFFICE, "seed": 17},
 	{"name": "office_b", "style": HouseProperties.Style.OFFICE, "seed": 6},
+	{"name": "hangar_a", "style": HouseProperties.Style.HANGAR, "seed": 2, "annex": false},
+	{"name": "hangar_b", "style": HouseProperties.Style.HANGAR, "seed": 11, "annex": true},
+	{"name": "warehouse_a", "style": HouseProperties.Style.WAREHOUSE, "seed": 4, "annex": false},
+	{"name": "warehouse_b", "style": HouseProperties.Style.WAREHOUSE, "seed": 15, "annex": true},
+	{"name": "alpine_a", "style": HouseProperties.Style.ALPINE, "seed": 3},
+	{"name": "alpine_b", "style": HouseProperties.Style.ALPINE, "seed": 5},
+	{"name": "station_a", "style": HouseProperties.Style.STATION, "seed": 8},
+	{"name": "station_b", "style": HouseProperties.Style.STATION, "seed": 19},
 ]
 
 const _SKIP_KINDS: PackedStringArray = [
-	"terrace", "apartments", "commercial", "industrial", "warehouse", "hangar",
-	"stadium", "hotel", "public", "school", "hospital", "train_station", "civic",
+	"terrace", "apartments", "commercial", "industrial", "stadium",
+	"hotel", "public", "school", "hospital", "civic",
 	"college", "university", "parking", "garages",
 ]
 
@@ -52,6 +60,10 @@ const _ROLE_KINDS := {
 	"shop": "shop",
 	"kiosk": "shop",
 	"supermarket": "shop",
+	"hangar": "hangar",
+	"train_station": "station",
+	"station": "station",
+	"warehouse": "warehouse",
 }
 
 
@@ -246,6 +258,8 @@ static func _properties(spec: Dictionary) -> HouseProperties:
 		var swap := props.width
 		props.width = props.depth
 		props.depth = swap
+	if spec.has("annex"):
+		props.annex = bool(spec.annex)
 	return props
 
 
@@ -281,7 +295,7 @@ static func _entries_for(tags: Dictionary, entries: Array) -> Array:
 	var filtered: Array = []
 	for entry in entries:
 		var style := str(entry.get("style", ""))
-		var civic := style == "church" or style == "shop" or style == "office"
+		var civic := style == "church" or style == "shop" or style == "office" or style == "hangar" or style == "warehouse" or style == "station"
 		if role == "":
 			if not civic:
 				filtered.append(entry)

@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://house_catalog/alpine_a_lod0.res" id="1_xx6cy"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/alpine_a_lod1.res" id="2_h51bu"]
+[ext_resource type="ArrayMesh" path="res://house_catalog/alpine_a_lod2.res" id="3_hmymv"]
+
+[node name="alpine_a" type="Node3D" unique_id=2108193662]
+
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=2064561615]
+mesh = ExtResource("1_xx6cy")
+
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=619343179]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("2_h51bu")
+
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1753523734]
+visible = false
+cast_shadow = 0
+mesh = ExtResource("3_hmymv")

@@ -48,6 +48,14 @@ func _init() -> void:
 	if pattern != "":
 		failed = true
 		push_error(pattern)
+	var industrial := _check_industrial()
+	if industrial != "":
+		failed = true
+		push_error(industrial)
+	var added := _check_alpine_and_station()
+	if added != "":
+		failed = true
+		push_error(added)
 	var demo_error := _save_demo()
 	if demo_error != OK:
 		failed = true
@@ -150,6 +158,15 @@ func _check_window_proportions(props: HouseProperties) -> String:
 		HouseProperties.Style.OFFICE:
 			if w < 1.2 or h < 1.45:
 				return "office windows are not large panes"
+		HouseProperties.Style.HANGAR, HouseProperties.Style.WAREHOUSE:
+			if props.window_walls != 0:
+				return "industrial hall has windows"
+		HouseProperties.Style.ALPINE:
+			if w < h * 1.25:
+				return "alpine windows are not horizontal"
+		HouseProperties.Style.STATION:
+			if h < w * 1.7:
+				return "station windows are not tall"
 	return ""
 
 
@@ -265,6 +282,122 @@ func _check_window_pattern() -> String:
 	if wide - narrow < 0.08:
 		return "irregular windows do not vary"
 	return ""
+
+
+func _check_industrial() -> String:
+	var hangar_on := 0
+	var warehouse_on := 0
+	for seed_value in 24:
+		if HouseProperties.make(HouseProperties.Style.HANGAR, seed_value + 1).annex:
+			hangar_on += 1
+		if HouseProperties.make(HouseProperties.Style.WAREHOUSE, seed_value + 1).annex:
+			warehouse_on += 1
+	if hangar_on < 4 or hangar_on > 16:
+		return "hangar annex is not occasional (%d of 24)" % hangar_on
+	if warehouse_on < 12 or warehouse_on > 22:
+		return "warehouse annex is not usual (%d of 24)" % warehouse_on
+	for style in [HouseProperties.Style.HANGAR, HouseProperties.Style.WAREHOUSE]:
+		var bare := HouseProperties.make(style, 3)
+		bare.annex = false
+		var bare_mesh := HouseGenerator.build_mesh(bare, 0)
+		if bare_mesh.surface_find_by_name("glass") >= 0:
+			return "industrial hall has glass without an annex"
+		var wide := _widest_front(bare_mesh, "door", bare)
+		if wide < 4.0:
+			return "garage door is only %.2f m" % wide
+		var with_annex := HouseProperties.make(style, 3)
+		with_annex.annex = true
+		var mesh := HouseGenerator.build_mesh(with_annex, 0)
+		var doors := _front_components(mesh, "door", with_annex)
+		var narrow := INF
+		var garage := 0.0
+		for door in doors:
+			narrow = minf(narrow, door.size.x)
+			garage = maxf(garage, door.size.x)
+		if garage < 4.0 or narrow > 1.6:
+			return "annex is missing a person door or the garage door (%.2f / %.2f)" % [garage, narrow]
+		var glass := _front_components(mesh, "glass", with_annex)
+		if glass.is_empty():
+			return "annex is missing its window"
+		var annex_x := with_annex.width * 0.5 - 4.6
+		for pane in glass:
+			if pane.get_center().x < annex_x:
+				return "a window sits on the hall"
+	return ""
+
+
+func _check_alpine_and_station() -> String:
+	for seed_value in 24:
+		var alpine := HouseProperties.make(HouseProperties.Style.ALPINE, seed_value + 1)
+		if alpine.floors < 2 or alpine.roof_pitch > 0.45 or alpine.roof_overhang < 1.5 or alpine.porch:
+			return "alpine seed %d is not a shallow wide-eaved chalet" % (seed_value + 1)
+		var mesh := HouseGenerator.build_mesh(alpine, 0)
+		var roof_id := mesh.surface_find_by_name("roof")
+		if roof_id < 0:
+			return "alpine is missing its roof"
+		var front_peak := 0.0
+		var side_peak := 0.0
+		var corner_y := INF
+		for vertex in mesh.surface_get_arrays(roof_id)[Mesh.ARRAY_VERTEX]:
+			if absf(vertex.x) < 0.15 and vertex.z < -alpine.depth * 0.5 - 1.0:
+				front_peak = maxf(front_peak, vertex.y)
+			if absf(vertex.z) < 0.15 and vertex.x > alpine.width * 0.5 + 1.0:
+				side_peak = maxf(side_peak, vertex.y)
+			if absf(vertex.x) > alpine.width * 0.5 and absf(vertex.z) > alpine.depth * 0.5:
+				corner_y = minf(corner_y, vertex.y)
+		var plate := alpine.foundation_height + alpine.floors * alpine.floor_height
+		if front_peak < plate + 0.5 or side_peak < plate + 0.5:
+			return "alpine roof is not a cross gable (front %.2f, side %.2f)" % [front_peak, side_peak]
+		if corner_y > plate - 0.2:
+			return "alpine overhang does not drop at the corners (%.2f)" % corner_y
+		var front_shoulder := INF
+		for vertex in mesh.surface_get_arrays(roof_id)[Mesh.ARRAY_VERTEX]:
+			if vertex.z < -alpine.depth * 0.5 - 1.0 and absf(vertex.x) > alpine.width * 0.32:
+				front_shoulder = minf(front_shoulder, vertex.y)
+		if front_shoulder > plate + 0.35:
+			return "alpine front cross gable still spans the full width (%.2f)" % front_shoulder
+		var foundation := mesh.surface_find_by_name("foundation")
+		if foundation < 0:
+			return "alpine is missing its stone floor"
+		var stone := 0.0
+		for vertex in mesh.surface_get_arrays(foundation)[Mesh.ARRAY_VERTEX]:
+			stone = maxf(stone, vertex.y)
+		if stone < alpine.foundation_height + alpine.floor_height * 0.8:
+			return "alpine stone floor stops at %.2f" % stone
+		var balcony := false
+		var trim := mesh.surface_find_by_name("trim")
+		if trim >= 0:
+			for vertex in mesh.surface_get_arrays(trim)[Mesh.ARRAY_VERTEX]:
+				if vertex.y > alpine.foundation_height + alpine.floor_height - 0.4 and vertex.z < -alpine.depth * 0.5:
+					balcony = true
+		if not balcony:
+			return "alpine seed %d has no balcony" % (seed_value + 1)
+		var far := HouseGenerator.build_mesh(alpine, 2)
+		if far.surface_find_by_name("trim") >= 0 or far.surface_find_by_name("foundation") >= 0:
+			return "alpine far mesh keeps the balcony or stone floor"
+	for seed_value in [8, 19]:
+		var station := HouseProperties.make(HouseProperties.Style.STATION, seed_value)
+		if station.floors != 1 or not station.porch or station.porch_depth < 2.0:
+			return "station is not a single-story platform building"
+		for lod in [0, 2]:
+			var canopy := HouseGenerator.build_mesh(station, lod)
+			var roof := canopy.surface_find_by_name("roof")
+			if roof < 0:
+				return "station is missing its roof"
+			var reached := false
+			for vertex in canopy.surface_get_arrays(roof)[Mesh.ARRAY_VERTEX]:
+				if vertex.z < -station.depth * 0.5 - 1.4:
+					reached = true
+			if not reached:
+				return "station canopy is missing on lod %d" % lod
+	return ""
+
+
+func _widest_front(mesh: ArrayMesh, surface_name: String, props: HouseProperties) -> float:
+	var widest := 0.0
+	for box in _front_components(mesh, surface_name, props):
+		widest = maxf(widest, box.size.x)
+	return widest
 
 
 func _check_chalet_eave(mesh: ArrayMesh, props: HouseProperties) -> String:
@@ -453,6 +586,8 @@ func _place_village(root: Node3D, rows: Array) -> Rect2:
 		var houses: Array = []
 		for spec in row:
 			var props := HouseProperties.make(int(spec.style), int(spec.seed))
+			if spec.has("annex"):
+				props.annex = bool(spec.annex)
 			var box := HouseGenerator.build_mesh(props, 0).get_aabb()
 			var house := GeneratedHouse.new()
 			house.properties = props
@@ -532,6 +667,18 @@ func _save_demo() -> Error:
 			{"style": HouseProperties.Style.CHURCH, "seed": 12},
 			{"style": HouseProperties.Style.CHURCH, "seed": 13},
 			{"style": HouseProperties.Style.CHURCH, "seed": 14},
+		],
+		[
+			{"style": HouseProperties.Style.HANGAR, "seed": 2, "annex": false},
+			{"style": HouseProperties.Style.HANGAR, "seed": 11, "annex": true},
+			{"style": HouseProperties.Style.WAREHOUSE, "seed": 4, "annex": false},
+			{"style": HouseProperties.Style.WAREHOUSE, "seed": 15, "annex": true},
+		],
+		[
+			{"style": HouseProperties.Style.ALPINE, "seed": 3},
+			{"style": HouseProperties.Style.ALPINE, "seed": 5},
+			{"style": HouseProperties.Style.STATION, "seed": 8},
+			{"style": HouseProperties.Style.STATION, "seed": 19},
 		],
 	]
 	var bounds := _place_village(root, rows)
