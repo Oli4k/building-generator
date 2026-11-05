@@ -141,13 +141,13 @@ func _add_walls() -> void:
 	var y0 := found_h
 	var front_wall := _below_roof(front_h)
 	var back_wall := _below_roof(back_h)
-	var front_open: Array = OpeningLayout.layout(self, width, front_h, 0, true) if policy.openings() else []
+	var front_open: Array = OpeningLayout.layout_wall(self, width, front_h, 0, true) if policy.openings() else []
 	_add_rect_wall(Vector3(-hx, y0, -hz), Vector3.RIGHT, width, front_wall, Vector3.FORWARD, front_open, true)
-	var right_open: Array = OpeningLayout.layout(self, depth, minf(front_h, back_h), 1, false) if policy.openings() else []
+	var right_open: Array = OpeningLayout.layout_wall(self, depth, minf(front_h, back_h), 1, false) if policy.openings() else []
 	_add_side_wall(Vector3(hx, y0, -hz), Vector3(0, 0, 1), depth, front_wall, back_wall, Vector3.RIGHT, right_open)
-	var back_open: Array = OpeningLayout.layout(self, width, back_h, 2, false) if policy.openings() else []
+	var back_open: Array = OpeningLayout.layout_wall(self, width, back_h, 2, false) if policy.openings() else []
 	_add_rect_wall(Vector3(hx, y0, hz), Vector3.LEFT, width, back_wall, Vector3.BACK, back_open, true)
-	var left_open: Array = OpeningLayout.layout(self, depth, minf(front_h, back_h), 3, false) if policy.openings() else []
+	var left_open: Array = OpeningLayout.layout_wall(self, depth, minf(front_h, back_h), 3, false) if policy.openings() else []
 	_add_side_wall(Vector3(-hx, y0, hz), Vector3(0, 0, -1), depth, back_wall, front_wall, Vector3.LEFT, left_open)
 
 func _add_far_walls() -> void:

@@ -48,10 +48,18 @@ func _init() -> void:
 	if pattern != "":
 		failed = true
 		push_error(pattern)
+	var span := _check_window_span()
+	if span != "":
+		failed = true
+		push_error(span)
 	var industrial := _check_industrial()
 	if industrial != "":
 		failed = true
 		push_error(industrial)
+	var profiles := _check_facade_profiles()
+	if profiles != "":
+		failed = true
+		push_error(profiles)
 	var added := _check_alpine_and_station()
 	if added != "":
 		failed = true
@@ -284,6 +292,73 @@ func _check_window_pattern() -> String:
 	return ""
 
 
+func _check_window_span() -> String:
+	# Fill mode keeps a fixed bay pitch: modest corner piers, no huge mid-wall void.
+	var props := HouseProperties.make(HouseProperties.Style.TOWNHOUSE, 4)
+	props.width = 11.0
+	props.depth = 6.0
+	props.floors = 2
+	props.window_columns = 0
+	props.window_omit = 0.0
+	props.window_walls = HouseProperties.WINDOW_FRONT
+	props.window_pattern = HouseProperties.WindowPattern.UNIFORM
+	props.porch = false
+	props.door_side = HouseProperties.HouseSide.CENTER
+	var mesh := HouseGenerator.build_mesh(props, 0)
+	var split := props.foundation_height + props.floor_height
+	var xs: Array[float] = []
+	var left := INF
+	var right := -INF
+	for pane in _front_components(mesh, "glass", props):
+		var box: AABB = pane
+		# Upstairs avoids the door gap so bay rhythm is measurable.
+		if box.get_center().y < split:
+			continue
+		xs.append(box.get_center().x)
+		left = minf(left, box.position.x)
+		right = maxf(right, box.position.x + box.size.x)
+	if xs.size() < 4:
+		return "wide facade kept too few windows (%d)" % xs.size()
+	xs.sort()
+	var half := props.width * 0.5
+	var edge_left := left - (-half)
+	var edge_right := half - right
+	if edge_left > 1.2 or edge_right > 1.2:
+		return "wide facade leaves %.2f/%.2f m at the corners" % [edge_left, edge_right]
+	if edge_left < 0.25 or edge_right < 0.25:
+		return "windows sit on the corners (%.2f/%.2f m)" % [edge_left, edge_right]
+	var max_gap := 0.0
+	for i in range(1, xs.size()):
+		max_gap = maxf(max_gap, xs[i] - xs[i - 1])
+	if max_gap > 1.6:
+		return "window bays are uneven / too open (%.2f m)" % max_gap
+	return ""
+
+
+func _check_facade_profiles() -> String:
+	var shop := HouseProperties.make(HouseProperties.Style.SHOP, 6)
+	if shop.facade_profile != HouseProperties.FacadeProfile.SHOP_FRONT:
+		return "shop recipe did not set SHOP_FRONT"
+	var modern := HouseProperties.make(HouseProperties.Style.CHURCH, 14)
+	if (modern.slit_walls & HouseProperties.WINDOW_BACK) == 0:
+		return "modern church recipe did not set slit_walls on the back"
+	var hangar := HouseProperties.make(HouseProperties.Style.HANGAR, 2)
+	if hangar.facade_profile != HouseProperties.FacadeProfile.NONE:
+		return "hangar recipe did not set NONE facade"
+	if absf(hangar.garage_width_fraction - 0.66) > 0.001:
+		return "hangar garage fraction is %.2f" % hangar.garage_width_fraction
+	var warehouse := HouseProperties.make(HouseProperties.Style.WAREHOUSE, 4)
+	if absf(warehouse.garage_width_fraction - 0.40) > 0.001:
+		return "warehouse garage fraction is %.2f" % warehouse.garage_width_fraction
+	var office := HouseProperties.make(HouseProperties.Style.OFFICE, 17)
+	if office.catalog_column_cap < 8:
+		return "office catalog column cap stayed low"
+	var cottage := HouseProperties.make(HouseProperties.Style.COTTAGE, 4)
+	if cottage.facade_profile != HouseProperties.FacadeProfile.GRID or cottage.slit_walls != 0:
+		return "cottage facade profile drifted"
+	return ""
+
+
 func _check_industrial() -> String:
 	var hangar_on := 0
 	var warehouse_on := 0
@@ -329,7 +404,7 @@ func _check_industrial() -> String:
 func _check_alpine_and_station() -> String:
 	for seed_value in 24:
 		var alpine := HouseProperties.make(HouseProperties.Style.ALPINE, seed_value + 1)
-		if alpine.floors < 2 or alpine.roof_pitch > 0.45 or alpine.roof_overhang < 1.5 or alpine.porch:
+		if alpine.floors < 2 or alpine.roof_pitch > 0.45 or alpine.roof_overhang < 1.1 or alpine.roof_overhang > 1.55 or alpine.porch:
 			return "alpine seed %d is not a shallow wide-eaved chalet" % (seed_value + 1)
 		var mesh := HouseGenerator.build_mesh(alpine, 0)
 		var roof_id := mesh.surface_find_by_name("roof")
@@ -338,10 +413,11 @@ func _check_alpine_and_station() -> String:
 		var front_peak := 0.0
 		var side_peak := 0.0
 		var corner_y := INF
+		var eaves_past := alpine.roof_overhang * 0.85
 		for vertex in mesh.surface_get_arrays(roof_id)[Mesh.ARRAY_VERTEX]:
-			if absf(vertex.x) < 0.15 and vertex.z < -alpine.depth * 0.5 - 1.0:
+			if absf(vertex.x) < 0.15 and vertex.z < -alpine.depth * 0.5 - eaves_past:
 				front_peak = maxf(front_peak, vertex.y)
-			if absf(vertex.z) < 0.15 and vertex.x > alpine.width * 0.5 + 1.0:
+			if absf(vertex.z) < 0.15 and vertex.x > alpine.width * 0.5 + eaves_past:
 				side_peak = maxf(side_peak, vertex.y)
 			if absf(vertex.x) > alpine.width * 0.5 and absf(vertex.z) > alpine.depth * 0.5:
 				corner_y = minf(corner_y, vertex.y)
@@ -352,7 +428,7 @@ func _check_alpine_and_station() -> String:
 			return "alpine overhang does not drop at the corners (%.2f)" % corner_y
 		var front_shoulder := INF
 		for vertex in mesh.surface_get_arrays(roof_id)[Mesh.ARRAY_VERTEX]:
-			if vertex.z < -alpine.depth * 0.5 - 1.0 and absf(vertex.x) > alpine.width * 0.32:
+			if vertex.z < -alpine.depth * 0.5 - eaves_past and absf(vertex.x) > alpine.width * 0.32:
 				front_shoulder = minf(front_shoulder, vertex.y)
 		if front_shoulder > plate + 0.35:
 			return "alpine front cross gable still spans the full width (%.2f)" % front_shoulder

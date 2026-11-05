@@ -19,10 +19,10 @@ tonemap_mode = 2
 albedo_color = Color(0.42745098, 0.47843137, 0.32156864, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ik1xl"]
-size = Vector2(137.35384, 151.58792)
+size = Vector2(137.35384, 150.47769)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mukvb"]
-size = Vector3(137.35384, 0.2, 151.58792)
+size = Vector3(137.35384, 0.2, 150.47769)
 
 [sub_resource type="Resource" id="Resource_lccox"]
 resource_local_to_scene = true
@@ -208,7 +208,6 @@ roof_overhang = 0.9167225
 chimney = false
 porch = true
 porch_depth = 1.7559403
-window_columns = 2
 window_omit = 0.08
 window_width = 1.32
 window_height = 0.78
@@ -236,7 +235,6 @@ roof_overhang = 0.73298883
 chimney = false
 chimney_side = 0
 porch_depth = 1.4871478
-window_columns = 2
 window_omit = 0.08
 window_width = 1.32
 window_height = 0.78
@@ -266,7 +264,6 @@ chimney = false
 chimney_side = 0
 porch = true
 porch_depth = 2.1177435
-window_columns = 4
 window_width = 1.18
 window_height = 0.98
 window_pattern = 3
@@ -292,7 +289,6 @@ roof_pitch = 0.72690344
 roof_overhang = 0.5253459
 porch = true
 porch_depth = 2.1128798
-window_columns = 4
 window_width = 1.18
 window_height = 0.98
 window_pattern = 3
@@ -317,7 +313,6 @@ roof_pitch = 0.47174153
 roof_overhang = 0.28
 chimney = false
 door_side = 2
-window_columns = 2
 window_omit = 0.0
 window_width = 0.56
 window_height = 1.68
@@ -343,7 +338,6 @@ roof_overhang = 0.5659973
 chimney = false
 porch = true
 porch_depth = 1.8306708
-window_columns = 4
 window_omit = 0.0
 window_width = 1.28
 window_height = 1.82
@@ -368,8 +362,8 @@ roof_type = 2
 roof_pitch = 0.2
 roof_overhang = 0.15
 chimney = false
+facade_profile = 1
 door_side = 2
-window_columns = 2
 window_omit = 0.0
 window_width = 0.7
 window_height = 1.08
@@ -397,8 +391,8 @@ foundation_height = 0.12
 roof_pitch = 0.35
 roof_overhang = 0.35
 chimney = false
+facade_profile = 1
 door_side = 2
-window_columns = 2
 window_omit = 0.0
 window_width = 0.7
 window_height = 1.08
@@ -427,12 +421,12 @@ roof_type = 2
 roof_pitch = 0.2
 roof_overhang = 0.12
 chimney = false
-window_columns = 4
 window_omit = 0.0
 window_width = 1.4
 window_height = 1.6
 door_width = 1.2
 door_height = 2.3
+catalog_column_cap = 99
 wall_color = Color(0.7176471, 0.7529412, 0.7764706, 1)
 roof_color = Color(0.17254902, 0.19215687, 0.21176471, 1)
 trim_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
@@ -454,12 +448,12 @@ roof_type = 2
 roof_pitch = 0.2
 roof_overhang = 0.12
 chimney = false
-window_columns = 4
 window_omit = 0.0
 window_width = 1.4
 window_height = 1.6
 door_width = 1.2
 door_height = 2.3
+catalog_column_cap = 99
 wall_color = Color(0.7176471, 0.7529412, 0.7764706, 1)
 roof_color = Color(0.17254902, 0.19215687, 0.21176471, 1)
 trim_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
@@ -533,6 +527,7 @@ roof_type = 3
 roof_pitch = 0.68287635
 roof_overhang = 1.064392
 chimney = false
+slit_walls = 4
 window_columns = 2
 window_omit = 0.35
 window_width = 1.5
@@ -559,7 +554,10 @@ roof_pitch = 0.25584894
 roof_overhang = 0.5518003
 chimney = false
 window_walls = 0
+facade_profile = 2
 window_omit = 0.0
+garage_width_fraction = 0.66
+garage_max_height = 6.0
 wall_color = Color(0.47843137, 0.3254902, 0.2509804, 1)
 roof_color = Color(0.24313726, 0.21960784, 0.19607843, 1)
 trim_color = Color(0.627451, 0.47058824, 0.3764706, 1)
@@ -582,7 +580,10 @@ chimney = false
 chimney_side = 0
 annex = true
 window_walls = 0
+facade_profile = 2
 window_omit = 0.0
+garage_width_fraction = 0.66
+garage_max_height = 6.0
 wall_color = Color(0.24313726, 0.26666668, 0.28235295, 1)
 roof_color = Color(0.16470589, 0.18039216, 0.19607843, 1)
 trim_color = Color(0.41568628, 0.4392157, 0.45490196, 1)
@@ -603,7 +604,10 @@ roof_pitch = 0.35380688
 roof_overhang = 0.4738773
 chimney = false
 window_walls = 0
+facade_profile = 2
 window_omit = 0.0
+garage_width_fraction = 0.4
+garage_top_clearance = 1.15
 wall_color = Color(0.54509807, 0.5764706, 0.6039216, 1)
 roof_color = Color(0.36078432, 0.39607844, 0.42352942, 1)
 trim_color = Color(0.65882355, 0.6901961, 0.7137255, 1)
@@ -625,7 +629,10 @@ roof_overhang = 0.5061421
 chimney = false
 annex = true
 window_walls = 0
+facade_profile = 2
 window_omit = 0.0
+garage_width_fraction = 0.4
+garage_top_clearance = 1.15
 wall_color = Color(0.16470589, 0.23529412, 0.32941177, 1)
 roof_color = Color(0.22745098, 0.26666668, 0.29803923, 1)
 trim_color = Color(0.36078432, 0.4392157, 0.53333336, 1)
@@ -644,8 +651,7 @@ floors = 2
 floor_height = 2.6599061
 foundation_height = 0.5455179
 roof_pitch = 0.40171397
-roof_overhang = 1.8409059
-window_columns = 3
+roof_overhang = 1.3033037
 window_width = 1.22
 window_height = 0.78
 window_pattern = 2
@@ -668,9 +674,8 @@ floors = 3
 floor_height = 2.8451757
 foundation_height = 0.512232
 roof_pitch = 0.4024023
-roof_overhang = 1.9973246
+roof_overhang = 1.4028429
 chimney = false
-window_columns = 3
 window_width = 1.22
 window_height = 0.78
 window_pattern = 2
@@ -696,12 +701,12 @@ roof_overhang = 0.48462707
 chimney = false
 porch = true
 porch_depth = 2.7210948
-window_columns = 5
 window_omit = 0.0
 window_width = 0.78
 window_height = 1.62
 door_width = 1.05
 door_height = 2.2
+catalog_column_cap = 99
 wall_color = Color(0.6392157, 0.40784314, 0.34509805, 1)
 roof_color = Color(0.2901961, 0.21960784, 0.20392157, 1)
 trim_color = Color(0.9372549, 0.9019608, 0.84705883, 1)
@@ -723,182 +728,182 @@ chimney = false
 chimney_side = 0
 porch = true
 porch_depth = 2.7202194
-window_columns = 5
 window_omit = 0.0
 window_width = 0.78
 window_height = 1.62
 door_width = 1.05
 door_height = 2.2
+catalog_column_cap = 99
 wall_color = Color(0.5529412, 0.30588236, 0.27450982, 1)
 roof_color = Color(0.43137255, 0.19607843, 0.17254902, 1)
 trim_color = Color(0.9372549, 0.9019608, 0.84705883, 1)
 door_color = Color(0.22745098, 0.17254902, 0.14117648, 1)
 foundation_color = Color(0.43137255, 0.41568628, 0.39215687, 1)
 
-[node name="Village" type="Node3D" unique_id=858426373]
+[node name="Village" type="Node3D" unique_id=182808101]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=998532010]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=612391668]
 environment = SubResource("Environment_6l1mx")
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=463226912]
-transform = Transform3D(-0.7893521, 0.24370272, -0.5634999, 0, 0.91784096, 0.3969483, 0.6139407, 0.313332, -0.7244997, -41.85577, 33.484615, -53.81456)
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1567511145]
+transform = Transform3D(-0.7893523, 0.2434416, -0.56361264, 0, 0.9180248, 0.3965231, 0.61394054, 0.31299642, -0.72464496, -41.46719, 33.17375, -53.314957)
 light_energy = 1.3
 shadow_enabled = true
 shadow_bias = 0.04
 shadow_normal_bias = 0.8
 
-[node name="Ground" type="MeshInstance3D" parent="." unique_id=103348169]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1504749136]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
 material_override = SubResource("StandardMaterial3D_td4fk")
 mesh = SubResource("PlaneMesh_ik1xl")
 
-[node name="GroundBody" type="StaticBody3D" parent="." unique_id=1708868107]
+[node name="GroundBody" type="StaticBody3D" parent="." unique_id=1966688705]
 
-[node name="Shape" type="CollisionShape3D" parent="GroundBody" unique_id=516143729]
+[node name="Shape" type="CollisionShape3D" parent="GroundBody" unique_id=547159627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("BoxShape3D_mukvb")
 
-[node name="cabin_2" type="Node3D" parent="." unique_id=963054837]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.37323, 0, -56.472656)
+[node name="cabin_2" type="Node3D" parent="." unique_id=338567963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.37323, 0, -55.917538)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_lccox")
 
-[node name="cabin_11" type="Node3D" parent="." unique_id=902363433]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.143618, 0, -55.94334)
+[node name="cabin_11" type="Node3D" parent="." unique_id=1518483169]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.143618, 0, -55.388226)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_76kjd")
 
-[node name="cottage_4" type="Node3D" parent="." unique_id=1452828519]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.136903, 0, -56.654198)
+[node name="cottage_4" type="Node3D" parent="." unique_id=1487644932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.136903, 0, -56.09908)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_a87m8")
 
-[node name="cottage_9" type="Node3D" parent="." unique_id=207790323]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8857791, 0, -56.591442)
+[node name="cottage_9" type="Node3D" parent="." unique_id=1516529692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8857791, 0, -56.036327)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_w2fld")
 
-[node name="cottage_15" type="Node3D" parent="." unique_id=993912410]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.407187, 0, -55.743084)
+[node name="cottage_15" type="Node3D" parent="." unique_id=293372507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.407187, 0, -55.18797)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_j2l22")
 
-[node name="shed_2" type="Node3D" parent="." unique_id=499690306]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.288637, 0, -57.528465)
+[node name="shed_2" type="Node3D" parent="." unique_id=322426805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.288637, 0, -56.97335)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_y2fke")
 
-[node name="shed_8" type="Node3D" parent="." unique_id=1178396887]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.133747, 0, -57.45163)
+[node name="shed_8" type="Node3D" parent="." unique_id=1404999352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.133747, 0, -56.89651)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_55f48")
 
-[node name="chalet_5" type="Node3D" parent="." unique_id=1846520004]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.090096, 0, -37.483204)
+[node name="chalet_5" type="Node3D" parent="." unique_id=1993398319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.090096, 0, -36.92809)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_7tv1t")
 
-[node name="chalet_12" type="Node3D" parent="." unique_id=1012452646]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.947643, 0, -38.8572)
+[node name="chalet_12" type="Node3D" parent="." unique_id=811734887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.947643, 0, -38.302086)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_ii5o3")
 
-[node name="farmhouse_7" type="Node3D" parent="." unique_id=1065639864]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.654235, 0, -36.33893)
+[node name="farmhouse_7" type="Node3D" parent="." unique_id=855945217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.654235, 0, -35.783813)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_dd4f7")
 
-[node name="farmhouse_15" type="Node3D" parent="." unique_id=142829819]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.821488, 0, -37.127155)
+[node name="farmhouse_15" type="Node3D" parent="." unique_id=1985616793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.821488, 0, -36.57204)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_0xf5w")
 
-[node name="townhouse_8" type="Node3D" parent="." unique_id=1224904197]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.325329, 0, -37.858795)
+[node name="townhouse_8" type="Node3D" parent="." unique_id=398851452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.325329, 0, -37.30368)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_gxodv")
 
-[node name="villa_6" type="Node3D" parent="." unique_id=831158539]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.384075, 0, -34.796482)
+[node name="villa_6" type="Node3D" parent="." unique_id=2093058436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.384075, 0, -34.241367)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_6bbts")
 
-[node name="shop_6" type="Node3D" parent="." unique_id=2061956147]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.086948, 0, -14.137621)
+[node name="shop_6" type="Node3D" parent="." unique_id=1701058569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.086948, 0, -13.582504)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_omrfs")
 
-[node name="shop_15" type="Node3D" parent="." unique_id=1916833517]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.462831, 0, -14.280695)
+[node name="shop_15" type="Node3D" parent="." unique_id=1277736078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.462831, 0, -13.725578)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_wb7rn")
 
-[node name="office_17" type="Node3D" parent="." unique_id=1197778989]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.540759, 0, -13.348326)
+[node name="office_17" type="Node3D" parent="." unique_id=870243601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.540759, 0, -12.793209)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_76igp")
 
-[node name="office_6" type="Node3D" parent="." unique_id=1926264454]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.116947, 0, -12.757666)
+[node name="office_6" type="Node3D" parent="." unique_id=613176260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.116947, 0, -12.202549)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_mqu2u")
 
-[node name="church_12" type="Node3D" parent="." unique_id=709617042]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.415745, 0, 5.8719273)
+[node name="church_12" type="Node3D" parent="." unique_id=1604360412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.415745, 0, 6.427044)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_t0ou8")
 
-[node name="church_13" type="Node3D" parent="." unique_id=876471554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666354, 0, 6.411577)
+[node name="church_13" type="Node3D" parent="." unique_id=130188716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666354, 0, 6.966694)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_teadv")
 
-[node name="church_14" type="Node3D" parent="." unique_id=1687071876]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.799713, 0, 8.254236)
+[node name="church_14" type="Node3D" parent="." unique_id=1430692853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.799713, 0, 8.809353)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_juq56")
 
-[node name="hangar_2" type="Node3D" parent="." unique_id=275446562]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.585197, 0, 31.392328)
+[node name="hangar_2" type="Node3D" parent="." unique_id=179841327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.585197, 0, 31.947445)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_mh80x")
 
-[node name="hangar_11" type="Node3D" parent="." unique_id=1083193875]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.337923, 0, 31.222239)
+[node name="hangar_11" type="Node3D" parent="." unique_id=634062735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.337923, 0, 31.777355)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_ovlga")
 
-[node name="warehouse_4" type="Node3D" parent="." unique_id=1120005460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.602896, 0, 30.76938)
+[node name="warehouse_4" type="Node3D" parent="." unique_id=270602916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.602896, 0, 31.324497)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_cu12b")
 
-[node name="warehouse_15" type="Node3D" parent="." unique_id=21751716]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.76516, 0, 30.547937)
+[node name="warehouse_15" type="Node3D" parent="." unique_id=1695055507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.76516, 0, 31.103054)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_vlbd2")
 
-[node name="alpine_3" type="Node3D" parent="." unique_id=1029060209]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.135475, 0, 53.83762)
+[node name="alpine_3" type="Node3D" parent="." unique_id=176808124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.540993, 0, 53.855137)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_bwgtr")
 
-[node name="alpine_5" type="Node3D" parent="." unique_id=376940226]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.69729, 0, 53.943653)
+[node name="alpine_5" type="Node3D" parent="." unique_id=1070321591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.234892, 0, 53.904285)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_ceuln")
 
-[node name="station_8" type="Node3D" parent="." unique_id=1476249760]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.050083, 0, 54.50677)
+[node name="station_8" type="Node3D" parent="." unique_id=729881645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.917999, 0, 55.061886)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_w4jmp")
 
-[node name="station_19" type="Node3D" parent="." unique_id=1298718343]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.76813, 0, 54.259)
+[node name="station_19" type="Node3D" parent="." unique_id=427161315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.636047, 0, 54.814114)
 script = ExtResource("1_cnm1h")
 properties = SubResource("Resource_udp5i")
 
-[node name="Camera" type="Camera3D" parent="." unique_id=880959288]
-transform = Transform3D(-1, -5.266149e-08, 1.4151502e-07, 0, 0.9372116, 0.3487613, -1.509958e-07, 0.3487613, -0.9372116, 0, 57.4022, -143.5055)
+[node name="Camera" type="Camera3D" parent="." unique_id=102919833]
+transform = Transform3D(-1, -5.262902e-08, 1.415271e-07, 0, 0.9372916, 0.34854624, -1.509958e-07, 0.34854624, -0.9372916, 0, 56.86929, -142.17322)
 current = true
 fov = 48.0

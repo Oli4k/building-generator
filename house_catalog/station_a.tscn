@@ -4,17 +4,17 @@
 [ext_resource type="ArrayMesh" path="res://house_catalog/station_a_lod1.res" id="2_jsqd6"]
 [ext_resource type="ArrayMesh" path="res://house_catalog/station_a_lod2.res" id="3_bcjxo"]
 
-[node name="station_a" type="Node3D" unique_id=266172253]
+[node name="station_a" type="Node3D" unique_id=1721971472]
 
-[node name="LOD0" type="MeshInstance3D" parent="." unique_id=396023184]
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=974656082]
 mesh = ExtResource("1_u1uen")
 
-[node name="LOD1" type="MeshInstance3D" parent="." unique_id=1114459737]
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=795866507]
 visible = false
 cast_shadow = 0
 mesh = ExtResource("2_jsqd6")
 
-[node name="LOD2" type="MeshInstance3D" parent="." unique_id=634110763]
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=1743120095]
 visible = false
 cast_shadow = 0
 mesh = ExtResource("3_bcjxo")

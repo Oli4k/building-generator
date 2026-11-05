@@ -60,7 +60,7 @@ static func add_pad(ctx: HouseBuildContext, x0: float, x1: float, z0: float, z1:
 
 
 static func add_hall_near(ctx: HouseBuildContext, x0: float, x1: float, hall_w: float, y0: float, wall_h: float) -> void:
-	var openings: Array = [HouseElementIndustrial.garage_opening(ctx, hall_w)] if ctx.lod == 0 else []
+	var openings: Array = [HouseOpeningLayout.hall_door(ctx, hall_w)] if ctx.lod == 0 else []
 	ctx._add_rect_wall(Vector3(x0, y0, -ctx.hz), Vector3.RIGHT, hall_w, wall_h, Vector3.FORWARD, openings, true)
 	ctx._add_rect_wall(Vector3(x1, y0, ctx.hz), Vector3.LEFT, hall_w, wall_h, Vector3.BACK, [], true)
 	ctx._add_side_wall(Vector3(x0, y0, ctx.hz), Vector3(0, 0, -1), ctx.depth, wall_h, wall_h, Vector3.LEFT, [])
@@ -77,7 +77,7 @@ static func add_hall_far(ctx: HouseBuildContext, x0: float, x1: float, hall_w: f
 
 
 static func add_annex_near(ctx: HouseBuildContext, x0: float, x1: float, z0: float, z1: float, y0: float, annex_h: float) -> void:
-	var openings: Array = HouseElementIndustrial.annex_openings(ctx, x1 - x0, annex_h) if ctx.lod == 0 else []
+	var openings: Array = HouseOpeningLayout.annex_front(ctx, x1 - x0, annex_h) if ctx.lod == 0 else []
 	ctx._add_rect_wall(Vector3(x0, y0, z0), Vector3.RIGHT, x1 - x0, annex_h, Vector3.FORWARD, openings, true)
 	ctx._add_rect_wall(Vector3(x1, y0, z0), Vector3(0, 0, 1), z1 - z0, annex_h, Vector3.RIGHT, [], true)
 	ctx._add_rect_wall(Vector3(x1, y0, z1), Vector3.LEFT, x1 - x0, annex_h, Vector3.BACK, [], true)
@@ -109,33 +109,5 @@ static func add_span_roof(ctx: HouseBuildContext, x0: float, x1: float, z0: floa
 		Vector3(ox1, ridge_y, mid_z),
 	], 0.12)
 
-
-static func garage_opening(ctx: HouseBuildContext, length: float) -> Dictionary:
-	var fraction := 0.66 if ctx.props.style == HouseProperties.Style.HANGAR else 0.40
-	var door_w := clampf(length * fraction, 3.2, maxf(3.2, length - 1.1))
-	var door_h := ctx.front_h - 0.55 if ctx.props.style == HouseProperties.Style.HANGAR else minf(4.5, ctx.front_h - 1.15)
-	door_h = minf(door_h, ctx._below_roof(ctx.front_h) - 0.12)
-	var door_x := (length - door_w) * 0.5
-	return {"rect": Rect2(door_x, 0.0, door_w, door_h), "door": true}
-
-
-static func annex_openings(ctx: HouseBuildContext, length: float, wall_h: float) -> Array:
-	var door_w := 0.96
-	var door_h := minf(2.15, wall_h - 0.2)
-	var margin := 0.32
-	var door := Rect2(margin, 0.0, door_w, door_h)
-	var win_w := 1.15
-	var win_h := 1.0
-	var sill := 1.2
-	if sill + win_h > wall_h - 0.25:
-		win_h = wall_h - 0.25 - sill
-	var win_x := door.end.x + 0.5
-	var openings: Array = [{"rect": door, "door": true}]
-	if win_h >= 0.6 and win_x + win_w <= length - margin:
-		openings.append({"rect": Rect2(win_x, sill, win_w, win_h), "door": false})
-	return openings
-
-
-## 0 is a west-tower chapel with a narrower chancel, 1 adds a side aisle, 2 is a tilted 1960s hall.
 
 

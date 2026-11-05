@@ -134,7 +134,7 @@ func _check_civic() -> bool:
 		push_error("shop front glass is only %.2f m on a %.2f m facade" % [glass_width, shop.width])
 		return true
 	var office := HouseProperties.make(HouseProperties.Style.OFFICE, 4)
-	if office.floors < 3 or office.roof_type != HouseProperties.RoofType.FLAT or office.window_columns < 4:
+	if office.floors < 3 or office.roof_type != HouseProperties.RoofType.FLAT or office.window_columns > 0:
 		push_error("office is not a multi-storey flat block")
 		return true
 	for entry in HouseCatalog.variants():

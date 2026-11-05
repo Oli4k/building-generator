@@ -81,7 +81,7 @@ The church plan comes from the seed and is stored on `church_plan`. **Annex** ad
 
 ### Extending styles
 
-Parameter-only styles (new cottage-like ranges and colors) go in `HouseRecipes` — no mesh code. New silhouettes need a `HouseBuildContext.Composition` entry or a new element under `addons/house_generator/elements/`, plus a recipe that fills `HouseProperties`. LOD feature gates live in `HouseLodPolicy`. Catalog rows stay `(name, style, seed[, annex])` in `HouseCatalog.VARIANTS`.
+Parameter-only styles (new cottage-like ranges and colors) go in `HouseRecipes` — no mesh code. Opening layout is recipe-driven: set `facade_profile` (`GRID`, `SHOP_FRONT`, `NONE`), optional `slit_walls`, and for halls `garage_width_fraction` / clearances. `HouseOpeningLayout.layout_wall` places rects; mesh cutting stays in the build context. New silhouettes need a `HouseBuildContext.Composition` entry or a new element under `addons/house_generator/elements/`, plus a recipe. LOD gates live in `HouseLodPolicy`. Catalog rows stay `(name, style, seed[, annex])` in `HouseCatalog.VARIANTS`.
 
 ## A batch of scenes
 

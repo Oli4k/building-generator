@@ -3,13 +3,27 @@ class_name HouseOpeningLayout
 extends RefCounted
 
 ## Door and window placement for facade walls.
+##
+## Recipes set [member HouseProperties.facade_profile], [member HouseProperties.slit_walls],
+## and garage fields. This class only places rects; mesh cutting stays on [HouseBuildContext].
+
+## Smallest structural corner pier. Real spacing uses [method grid_gap] so edge and
+## inter-window piers stay in the same rhythm.
+const GRID_EDGE_MIN := 0.36
+
+
+## Place openings for one house wall. Prefer this over style-specific callers.
+static func layout_wall(ctx: HouseBuildContext, length: float, wall_height: float, wall_id: int, with_door: bool) -> Array:
+	return layout(ctx, length, wall_height, wall_id, with_door)
+
 
 static func layout(ctx: HouseBuildContext, length: float, wall_height: float, wall_id: int, with_door: bool) -> Array:
 	var windows := HouseOpeningLayout.windows_on(ctx, wall_id)
-	if windows and ctx.props.style == HouseProperties.Style.SHOP and with_door:
+	var profile := ctx.props.facade_profile
+	if with_door and profile == HouseProperties.FacadeProfile.SHOP_FRONT:
 		return HouseOpeningLayout.shop_front(ctx, length, wall_height)
-	if windows and ctx.props.style == HouseProperties.Style.CHURCH and ctx.props.church_plan == 2 and wall_id == 2:
-		return HouseOpeningLayout.church_glass_wall(ctx, length, wall_height)
+	if windows and HouseOpeningLayout.slits_on(ctx, wall_id):
+		return HouseOpeningLayout.slit_row(ctx, length, wall_height)
 	var openings: Array = []
 	var door := Rect2()
 	var has_door := false
@@ -21,23 +35,13 @@ static func layout(ctx: HouseBuildContext, length: float, wall_height: float, wa
 		has_door = true
 		openings.append({"rect": door, "door": true})
 		ctx.door_center_x = -ctx.hx + door.position.x + door.size.x * 0.5
-	if not windows:
+	if not windows or profile == HouseProperties.FacadeProfile.NONE:
 		return openings
 	var ww := clampf(ctx.props.window_width, 0.35, 1.8)
-	var gap := maxf(0.5, ww * 0.62)
-	var margin := 0.42
-	var usable := length - margin * 2.0
-	if usable < ww * 0.75:
+	var columns := HouseOpeningLayout.grid_columns(ctx, length, ww)
+	if columns <= 0:
 		return openings
-	var max_fit := maxi(1, int(floor((usable + gap) / (ww + gap))))
-	var columns := max_fit if ctx.props.window_columns <= 0 else mini(ctx.props.window_columns, max_fit)
-	if ctx.catalog:
-		columns = mini(columns, HouseRecipes.catalog_column_cap(ctx.props))
-	var row_w := columns * ww + (columns - 1) * gap
-	var start := (length - row_w) * 0.5
-	var xs: Array = []
-	for c in columns:
-		xs.append(start + c * (ww + gap))
+	var xs := HouseOpeningLayout.grid_column_xs(length, columns, ww)
 	HouseOpeningLayout.spread_around_door(ctx, xs, ww, door, has_door, length)
 	var placed: Array[Rect2] = []
 	if has_door:
@@ -127,17 +131,10 @@ static func shop_glass(ctx: HouseBuildContext, openings: Array, x0: float, x1: f
 
 static func append_window_row(ctx: HouseBuildContext, openings: Array, length: float, wall_height: float, first_floor: int, floor_count: int, door: Rect2, has_door: bool, wall_id: int) -> void:
 	var ww := clampf(ctx.props.window_width, 0.35, 1.8)
-	var gap := maxf(0.5, ww * 0.62)
-	var margin := 0.42
-	var usable := length - margin * 2.0
-	if usable < ww * 0.75:
+	var columns := HouseOpeningLayout.grid_columns(ctx, length, ww)
+	if columns <= 0:
 		return
-	var max_fit := maxi(1, int(floor((usable + gap) / (ww + gap))))
-	var columns := max_fit if ctx.props.window_columns <= 0 else mini(ctx.props.window_columns, max_fit)
-	if ctx.catalog:
-		columns = mini(columns, HouseRecipes.catalog_column_cap(ctx.props))
-	var row_w := columns * ww + (columns - 1) * gap
-	var start := (length - row_w) * 0.5
+	var xs := HouseOpeningLayout.grid_column_xs(length, columns, ww)
 	var placed: Array[Rect2] = []
 	if has_door:
 		placed.append(door)
@@ -156,7 +153,7 @@ static func append_window_row(ctx: HouseBuildContext, openings: Array, length: f
 			var pane_h := minf(size.y, head - sill)
 			if pane_h < 0.4:
 				continue
-			var center := start + c * (ww + gap) + ww * 0.5
+			var center := float(xs[c]) + ww * 0.5
 			var rect := Rect2(center - size.x * 0.5, head - pane_h, size.x, pane_h)
 			rect = HouseOpeningLayout.fit_beside_door(ctx, rect, door, has_door and not above_door, length, placed)
 			if rect.size.x <= 0.0:
@@ -165,7 +162,45 @@ static func append_window_row(ctx: HouseBuildContext, openings: Array, length: f
 			placed.append(rect)
 
 
-static func church_glass_wall(ctx: HouseBuildContext, length: float, wall_height: float) -> Array:
+## Pier between windows — scales with pane width so denser glass keeps tighter rhythm.
+static func grid_gap(ww: float) -> float:
+	return maxf(0.5, ww * 0.62)
+
+
+## How many grid columns fit this wall after recipe / catalog caps.
+## [member HouseProperties.window_columns] `0` fills the wall at a fixed bay pitch;
+## a positive count is a hard cap (sparse styles such as chapel or shed).
+static func grid_columns(ctx: HouseBuildContext, length: float, ww: float) -> int:
+	var gap := HouseOpeningLayout.grid_gap(ww)
+	var margin := maxf(HouseOpeningLayout.GRID_EDGE_MIN, gap)
+	var usable := length - margin * 2.0
+	if usable < ww * 0.75:
+		return 0
+	var max_fit := maxi(1, int(floor((usable + gap) / (ww + gap))))
+	var columns := max_fit if ctx.props.window_columns <= 0 else mini(ctx.props.window_columns, max_fit)
+	if ctx.catalog:
+		columns = mini(columns, ctx.props.catalog_column_cap)
+	return columns
+
+
+## Left edges of each column at a fixed bay pitch, centered on the wall.
+static func grid_column_xs(length: float, columns: int, ww: float) -> Array:
+	var xs: Array = []
+	if columns <= 0:
+		return xs
+	var gap := HouseOpeningLayout.grid_gap(ww)
+	if columns == 1:
+		xs.append(clampf((length - ww) * 0.5, HouseOpeningLayout.GRID_EDGE_MIN, maxf(HouseOpeningLayout.GRID_EDGE_MIN, length - HouseOpeningLayout.GRID_EDGE_MIN - ww)))
+		return xs
+	var row_w := float(columns) * ww + float(columns - 1) * gap
+	var start := maxf(HouseOpeningLayout.GRID_EDGE_MIN, (length - row_w) * 0.5)
+	for c in columns:
+		xs.append(start + float(c) * (ww + gap))
+	return xs
+
+
+## Tall narrow lights with a pier between each (modern church hall back wall).
+static func slit_row(ctx: HouseBuildContext, length: float, wall_height: float) -> Array:
 	var margin := 1.25
 	var sill := 1.4
 	var head := wall_height - 0.7
@@ -180,6 +215,39 @@ static func church_glass_wall(ctx: HouseBuildContext, length: float, wall_height
 	for i in count:
 		var x := margin + float(i) * (slit_w + gap)
 		openings.append({"rect": Rect2(x, sill, slit_w, head - sill), "door": false})
+	return openings
+
+
+static func church_glass_wall(ctx: HouseBuildContext, length: float, wall_height: float) -> Array:
+	return slit_row(ctx, length, wall_height)
+
+
+## Hangar/warehouse hall door from recipe garage fields.
+static func hall_door(ctx: HouseBuildContext, length: float) -> Dictionary:
+	var fraction := clampf(ctx.props.garage_width_fraction, 0.2, 0.9)
+	var door_w := clampf(length * fraction, 3.2, maxf(3.2, length - 1.1))
+	var clearance := clampf(ctx.props.garage_top_clearance, 0.3, 1.5)
+	var door_h := minf(ctx.props.garage_max_height, ctx.front_h - clearance)
+	door_h = minf(door_h, ctx._below_roof(ctx.front_h) - 0.12)
+	var door_x := (length - door_w) * 0.5
+	return {"rect": Rect2(door_x, 0.0, door_w, door_h), "door": true}
+
+
+## Annex front: person door plus one window.
+static func annex_front(ctx: HouseBuildContext, length: float, wall_h: float) -> Array:
+	var door_w := 0.96
+	var door_h := minf(2.15, wall_h - 0.2)
+	var margin := 0.32
+	var door := Rect2(margin, 0.0, door_w, door_h)
+	var win_w := 1.15
+	var win_h := 1.0
+	var sill := 1.2
+	if sill + win_h > wall_h - 0.25:
+		win_h = wall_h - 0.25 - sill
+	var win_x := door.end.x + 0.5
+	var openings: Array = [{"rect": door, "door": true}]
+	if win_h >= 0.6 and win_x + win_w <= length - margin:
+		openings.append({"rect": Rect2(win_x, sill, win_w, win_h), "door": false})
 	return openings
 
 
@@ -211,6 +279,10 @@ static func overlaps(ctx: HouseBuildContext, a: Rect2, b: Rect2, margin: float) 
 
 static func windows_on(ctx: HouseBuildContext, wall_id: int) -> bool:
 	return (ctx.props.window_walls & (1 << wall_id)) != 0
+
+
+static func slits_on(ctx: HouseBuildContext, wall_id: int) -> bool:
+	return (ctx.props.slit_walls & (1 << wall_id)) != 0
 
 
 static func door_u(ctx: HouseBuildContext, length: float, door_w: float) -> float:

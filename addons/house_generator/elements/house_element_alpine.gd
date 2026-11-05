@@ -8,14 +8,19 @@ extends RefCounted
 ## gable is narrower, so the wide facade shows a center gable that does not
 ## span the whole wall.
 
+## Keep wall tops under the thick roof panels (LOD0 thickness is 0.1).
+const _ROOF_TUCK := 0.14
+
 
 ## Half-width of the front/back cross gable on the wall (not including overhang).
 static func cross_half_x(ctx: HouseBuildContext) -> float:
 	return clampf(ctx.hx * 0.5, 2.2, ctx.hx * 0.62)
 
 
+## Roof-plan half-width of the cross, scaled so the wall shoulders meet the valley at plate height.
 static func cross_x_out(ctx: HouseBuildContext) -> float:
-	return (cross_half_x(ctx) / maxf(ctx.hx, 0.01)) * (ctx.hx + ctx.overhang)
+	var half := cross_half_x(ctx)
+	return half * (ctx.hz + ctx.overhang) / maxf(ctx.hz, 0.01)
 
 
 static func cross_roof(ctx: HouseBuildContext) -> bool:
@@ -73,11 +78,11 @@ static func cross_roof_y(ctx: HouseBuildContext, x: float, z: float) -> float:
 
 static func add_cross_walls(ctx: HouseBuildContext, far: bool) -> void:
 	var y0 := ctx._base_y() if far else ctx.found_h
-	var wall_h := ctx.found_h + ctx._below_roof(ctx.front_h) - y0
-	var front_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout(ctx, ctx.width, ctx.front_h, 0, true)
-	var right_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout(ctx, ctx.depth, ctx.front_h, 1, false)
-	var back_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout(ctx, ctx.width, ctx.back_h, 2, false)
-	var left_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout(ctx, ctx.depth, ctx.front_h, 3, false)
+	var wall_h := ctx.found_h + ctx.front_h - _ROOF_TUCK - y0
+	var front_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout_wall(ctx, ctx.width, ctx.front_h, 0, true)
+	var right_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout_wall(ctx, ctx.depth, ctx.front_h, 1, false)
+	var back_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout_wall(ctx, ctx.width, ctx.back_h, 2, false)
+	var left_open: Array = [] if far or ctx.lod != 0 else HouseOpeningLayout.layout_wall(ctx, ctx.depth, ctx.front_h, 3, false)
 	HouseElementAlpine.add_cross_side(ctx, Vector3(-ctx.hx, y0, -ctx.hz), Vector3.RIGHT, ctx.width, wall_h, Vector3.FORWARD, front_open, far)
 	HouseElementAlpine.add_cross_side(ctx, Vector3(ctx.hx, y0, -ctx.hz), Vector3(0, 0, 1), ctx.depth, wall_h, Vector3.RIGHT, right_open, far)
 	HouseElementAlpine.add_cross_side(ctx, Vector3(ctx.hx, y0, ctx.hz), Vector3.LEFT, ctx.width, wall_h, Vector3.BACK, back_open, far)
@@ -89,7 +94,7 @@ static func add_cross_side(ctx: HouseBuildContext, origin: Vector3, axis_u: Vect
 		ctx._add_shell_wall(origin, axis_u, length, wall_h, outward)
 	else:
 		ctx._add_rect_wall(origin, axis_u, length, wall_h, outward, openings, false)
-	var y_base := ctx.found_h + ctx._below_roof(ctx.front_h)
+	var y_base := ctx.found_h + ctx.front_h - _ROOF_TUCK
 	var front_back := absf(outward.z) > 0.5
 	var left_u := 0.0
 	var right_u := length
@@ -98,8 +103,14 @@ static func add_cross_side(ctx: HouseBuildContext, origin: Vector3, axis_u: Vect
 		left_u = length * 0.5 - half
 		right_u = length * 0.5 + half
 	var peak := HouseElementAlpine.cross_wall_point(ctx, origin, axis_u, length * 0.5, y_base)
-	var left := HouseElementAlpine.cross_wall_point(ctx, origin, axis_u, left_u, y_base)
-	var right := HouseElementAlpine.cross_wall_point(ctx, origin, axis_u, right_u, y_base)
+	var left := origin + axis_u * left_u
+	var right := origin + axis_u * right_u
+	# Shoulders sit on the plate so the rectangle never rises into the roof valley.
+	left.y = y_base
+	right.y = y_base
+	if not front_back:
+		left = HouseElementAlpine.cross_wall_point(ctx, origin, axis_u, left_u, y_base)
+		right = HouseElementAlpine.cross_wall_point(ctx, origin, axis_u, right_u, y_base)
 	ctx._add_wall_polygon([left, peak, right], outward)
 	if front_back:
 		if left_u > 0.05:
@@ -110,7 +121,8 @@ static func add_cross_side(ctx: HouseBuildContext, origin: Vector3, axis_u: Vect
 
 static func cross_wall_point(ctx: HouseBuildContext, origin: Vector3, axis_u: Vector3, u: float, y_base: float) -> Vector3:
 	var point := origin + axis_u * u
-	point.y = maxf(HouseElementAlpine.cross_roof_y(ctx, point.x, point.z) - 0.05, y_base)
+	point.y = minf(HouseElementAlpine.cross_roof_y(ctx, point.x, point.z) - _ROOF_TUCK, ctx.peak_y - _ROOF_TUCK)
+	point.y = maxf(point.y, y_base)
 	return point
 
 
@@ -125,7 +137,7 @@ static func cap_wall_span(ctx: HouseBuildContext, origin: Vector3, axis_u: Vecto
 static func add_alpine_balcony(ctx: HouseBuildContext) -> void:
 	if ctx.props.style != HouseProperties.Style.ALPINE or ctx.floors < 2:
 		return
-	var reach := minf(1.35, maxf(0.9, ctx.overhang - 0.4))
+	var reach := minf(1.2, maxf(0.85, ctx.overhang - 0.25))
 	var x0 := -ctx.hx + 0.35
 	var x1 := ctx.hx - 0.35
 	if x1 - x0 < 2.0:

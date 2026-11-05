@@ -4,7 +4,7 @@ extends RefCounted
 
 ## Style recipes fill [HouseProperties] from a [HouseProperties.Style] and seed.
 ## Mesh topology comes from [enum HouseBuildContext.Composition] via [method composition_for];
-## recipes only set dimensions, roof, openings, colors, and [member HouseProperties.church_plan].
+## recipes set dimensions, roof, facade opening profile, colors, and [member HouseProperties.church_plan].
 
 
 static func composition_for(style: HouseProperties.Style) -> HouseBuildContext.Composition:
@@ -59,13 +59,6 @@ static func apply(props: HouseProperties, which: HouseProperties.Style, seed_val
 	_apply_sides(props)
 
 
-## Max window columns in catalog/openings preview mode (0 still means fill the wall).
-static func catalog_column_cap(props: HouseProperties) -> int:
-	if props.style == HouseProperties.Style.OFFICE or props.style == HouseProperties.Style.STATION:
-		return 99
-	return 2
-
-
 static func _apply_common_defaults(props: HouseProperties) -> void:
 	props.foundation_height = 0.32
 	props.wall_thickness = 0.16
@@ -73,6 +66,12 @@ static func _apply_common_defaults(props: HouseProperties) -> void:
 	props.door_height = 2.05
 	props.window_columns = 0
 	props.window_walls = HouseProperties.WINDOW_ALL
+	props.slit_walls = 0
+	props.facade_profile = HouseProperties.FacadeProfile.GRID
+	props.catalog_column_cap = 2
+	props.garage_width_fraction = 0.5
+	props.garage_top_clearance = 0.55
+	props.garage_max_height = 4.5
 	props.door_side = HouseProperties.HouseSide.CENTER
 	props.chimney_side = HouseProperties.HouseSide.RIGHT
 	props.window_omit = 0.08
@@ -149,7 +148,7 @@ static func _apply_townhouse(props: HouseProperties, rng: RandomNumberGenerator)
 	props.roof_overhang = 0.12 if props.roof_type == HouseProperties.RoofType.FLAT else 0.28
 	props.chimney = props.roof_type != HouseProperties.RoofType.FLAT and rng.randf() > 0.55
 	props.porch = false
-	props.window_columns = 2
+	props.window_columns = 0
 	props.window_omit = 0.0
 	props.window_width = 0.56
 	props.window_height = 1.68
@@ -171,7 +170,7 @@ static func _apply_farmhouse(props: HouseProperties, rng: RandomNumberGenerator)
 	props.chimney = rng.randf() > 0.15
 	props.porch = rng.randf() > 0.1
 	props.porch_depth = rng.randf_range(1.6, 2.2)
-	props.window_columns = 4
+	props.window_columns = 0
 	props.window_omit = 0.05
 	props.window_width = 1.18
 	props.window_height = 0.98
@@ -195,7 +194,7 @@ static func _apply_villa(props: HouseProperties, rng: RandomNumberGenerator) -> 
 	props.chimney = rng.randf() > 0.8
 	props.porch = rng.randf() > 0.55
 	props.porch_depth = rng.randf_range(1.4, 2.0)
-	props.window_columns = 4
+	props.window_columns = 0
 	props.window_omit = 0.0
 	props.window_width = 1.28
 	props.window_height = 1.82
@@ -244,7 +243,7 @@ static func _apply_chalet(props: HouseProperties, rng: RandomNumberGenerator) ->
 	props.chimney = rng.randf() > 0.25
 	props.porch = rng.randf() > 0.3
 	props.porch_depth = rng.randf_range(1.4, 2.0)
-	props.window_columns = 2
+	props.window_columns = 0
 	props.window_omit = 0.08
 	props.window_width = 1.32
 	props.window_height = 0.78
@@ -281,6 +280,7 @@ static func _apply_church(props: HouseProperties, rng: RandomNumberGenerator, se
 		props.roof_overhang = rng.randf_range(0.9, 1.15)
 		props.window_columns = 2
 		props.window_walls = HouseProperties.WINDOW_ALL
+		props.slit_walls = HouseProperties.WINDOW_BACK
 		props.window_omit = 0.35
 		props.window_width = 1.5
 		props.window_height = 0.62
@@ -320,7 +320,8 @@ static func _apply_shop(props: HouseProperties, rng: RandomNumberGenerator) -> v
 	props.foundation_height = 0.12
 	props.chimney = false
 	props.porch = false
-	props.window_columns = 2
+	props.facade_profile = HouseProperties.FacadeProfile.SHOP_FRONT
+	props.window_columns = 0
 	props.window_omit = 0.0
 	props.window_width = 0.7
 	props.window_height = 1.08
@@ -347,10 +348,11 @@ static func _apply_office(props: HouseProperties, rng: RandomNumberGenerator) ->
 	props.foundation_height = 0.18
 	props.chimney = false
 	props.porch = false
-	props.window_columns = 4
+	props.window_columns = 0
 	props.window_omit = 0.0
 	props.window_width = 1.4
 	props.window_height = 1.6
+	props.catalog_column_cap = 99
 	props.door_width = 1.2
 	props.door_height = 2.3
 	props.wall_color = _pick(rng, [Color("#d5d8dc"), Color("#c8c2b6"), Color("#e4e1da"), Color("#b7c0c6")])
@@ -373,8 +375,12 @@ static func _apply_hangar(props: HouseProperties, rng: RandomNumberGenerator, se
 	props.chimney = false
 	props.porch = false
 	props.annex = _salted_unit(seed_value, 80) < 0.38
+	props.facade_profile = HouseProperties.FacadeProfile.NONE
 	props.window_walls = 0
 	props.window_omit = 0.0
+	props.garage_width_fraction = 0.66
+	props.garage_top_clearance = 0.55
+	props.garage_max_height = 6.0
 	_apply_metal_colors(props, rng)
 
 
@@ -390,8 +396,12 @@ static func _apply_warehouse(props: HouseProperties, rng: RandomNumberGenerator,
 	props.chimney = false
 	props.porch = false
 	props.annex = _salted_unit(seed_value, 80) < 0.72
+	props.facade_profile = HouseProperties.FacadeProfile.NONE
 	props.window_walls = 0
 	props.window_omit = 0.0
+	props.garage_width_fraction = 0.40
+	props.garage_top_clearance = 1.15
+	props.garage_max_height = 4.5
 	_apply_metal_colors(props, rng)
 
 
@@ -403,11 +413,11 @@ static func _apply_alpine(props: HouseProperties, rng: RandomNumberGenerator) ->
 	props.roof_type = HouseProperties.RoofType.GABLE
 	# Flachsatteldach: a shallow cross gable. Pitch is rise over run, about 17° to 23°.
 	props.roof_pitch = rng.randf_range(0.30, 0.42)
-	props.roof_overhang = rng.randf_range(1.6, 2.15)
+	props.roof_overhang = rng.randf_range(1.15, 1.5)
 	props.foundation_height = rng.randf_range(0.35, 0.55)
 	props.chimney = rng.randf() > 0.2
 	props.porch = false
-	props.window_columns = 3
+	props.window_columns = 0
 	props.window_omit = 0.05
 	props.window_width = 1.22
 	props.window_height = 0.78
@@ -435,12 +445,13 @@ static func _apply_station(props: HouseProperties, rng: RandomNumberGenerator) -
 	props.porch_depth = rng.randf_range(2.3, 2.8)
 	props.door_width = 1.05
 	props.door_height = 2.2
-	props.window_columns = 5
+	props.window_columns = 0
 	props.window_omit = 0.0
 	props.window_width = 0.78
 	props.window_height = 1.62
 	props.window_pattern = HouseProperties.WindowPattern.UNIFORM
 	props.window_variation = 0.0
+	props.catalog_column_cap = 99
 	props.wall_color = _pick(rng, [Color("#8d4e46"), Color("#a36858"), Color("#c4b49a"), Color("#d9cbb8")])
 	props.roof_color = _pick(rng, [Color("#6e322c"), Color("#4a3834"), Color("#3c4450")])
 	props.door_color = Color("#3a2c24")

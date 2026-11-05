@@ -52,7 +52,14 @@ enum WindowPattern {
 	IRREGULAR,
 }
 
-## Bits for [member window_walls]. Front is the -Z face.
+## How [HouseOpeningLayout] places openings on a wall. Set by the style recipe.
+enum FacadeProfile {
+	GRID,
+	SHOP_FRONT,
+	NONE,
+}
+
+## Bits for [member window_walls] and [member slit_walls]. Front is the -Z face.
 const WINDOW_FRONT := 1
 const WINDOW_RIGHT := 2
 const WINDOW_BACK := 4
@@ -94,8 +101,11 @@ const WINDOW_ALL := WINDOW_FRONT | WINDOW_RIGHT | WINDOW_BACK | WINDOW_LEFT
 @export_group("Openings")
 ## Front, right, back, and left. The door stays on the front.
 @export_flags("Front", "Right", "Back", "Left") var window_walls: int = WINDOW_ALL
+## Walls that use a tall slit row instead of the grid (e.g. modern church back wall).
+@export_flags("Front", "Right", "Back", "Left") var slit_walls: int = 0
+@export var facade_profile: FacadeProfile = FacadeProfile.GRID
 @export var door_side: HouseSide = HouseSide.CENTER
-## How many window columns to attempt. 0 fills the wall.
+## Window columns. 0 fills each wall at a fixed bay pitch; a positive value caps the count.
 @export_range(0, 8, 1) var window_columns: int = 0
 ## Chance each candidate window is skipped. Placement is deterministic for [member seed].
 @export_range(0.0, 0.85, 0.01) var window_omit: float = 0.05
@@ -107,6 +117,14 @@ const WINDOW_ALL := WINDOW_FRONT | WINDOW_RIGHT | WINDOW_BACK | WINDOW_LEFT
 @export_range(0.0, 1.0, 0.01) var window_variation: float = 0.0
 @export_range(0.6, 1.6, 0.01, "suffix:m") var door_width: float = 0.9
 @export_range(1.6, 2.5, 0.01, "suffix:m") var door_height: float = 2.05
+## Max window columns when baking a catalog mesh. Office/station recipes raise this.
+@export_range(1, 99, 1) var catalog_column_cap: int = 2
+## Hangar/warehouse hall door width as a fraction of the hall front.
+@export_range(0.2, 0.9, 0.01) var garage_width_fraction: float = 0.5
+## Clearance from the hall door head up to the wall plate.
+@export_range(0.3, 1.5, 0.01, "suffix:m") var garage_top_clearance: float = 0.55
+## Hard cap on hangar/warehouse door height.
+@export_range(2.5, 6.0, 0.05, "suffix:m") var garage_max_height: float = 4.5
 
 @export_group("Colors")
 @export var wall_color: Color = Color("#e4d2b0")
