@@ -1,12 +1,26 @@
 # Building Generator
 
-Godot 4.7 editor plugin that builds houses, shops, offices, churches, and small stations from a property resource and bakes them into meshes you can scatter by hand or with [Terrain3D](https://github.com/TokisanGames/Terrain3D).
+Godot 4.7 editor plugin that builds houses, shops, offices, churches, alpine chalets, hangars, warehouses, and small stations from a property resource and bakes them into meshes you can scatter by hand or with [Terrain3D](https://github.com/TokisanGames/Terrain3D).
 
 ![The demo village](docs/images/village.png)
 
 The mesh origin is the ground contact at the footprint center. The front faces -Z. Width runs along X, depth along Z. Each baked scene has three meshes, `LOD0`, `LOD1`, and `LOD2`.
 
 Licensed under the [MIT License](LICENSE).
+
+## Changelog
+
+### 0.2.0
+
+- New styles: alpine cross-gable chalet, hangar, warehouse (optional annex), and station with a platform canopy
+- Catalog grows to 26 variants, including metal halls and stations; shared material gains corrugated-metal and clearer glass sheen
+- Recipe-driven facade, roof, and porch profiles (`facade_profile`, `roof_profile`, `porch_profile`) so openings, shell roofs, cross/span roofs, and deck vs canopy are data rather than style checks
+- Composition/element split for residential, alpine, church, and industrial massing; LOD policy stays separate
+- README cost table and extending-styles notes for recipe vs mesh work
+
+### 0.1.0
+
+- First release: procedural houses, shops, offices, and churches; LOD0–2 bakes; catalog for Terrain3D; demo village
 
 ## Cost
 
