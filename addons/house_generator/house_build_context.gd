@@ -88,8 +88,8 @@ func _compute_dimensions() -> void:
 	hz = depth * 0.5
 	front_h = floors * floor_h
 	stone_band = floor_h if composition == Composition.ALPINE else 0.0
-	# The steep eave drops in front of a one-story chalet and crosses the door.
-	if props.style == HouseProperties.Style.CHALET and floors == 1:
+	# The steep eave sits close over the windows. Half a meter of wall lifts the roof clear.
+	if props.style == HouseProperties.Style.CHALET:
 		front_h += 0.5
 	back_h = front_h
 	if props.roof_type == HouseProperties.RoofType.SHED:

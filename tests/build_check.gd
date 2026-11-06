@@ -540,7 +540,17 @@ func _widest_front(mesh: ArrayMesh, surface_name: String, props: HouseProperties
 
 
 func _check_chalet_eave(mesh: ArrayMesh, props: HouseProperties) -> String:
-	if props.style != HouseProperties.Style.CHALET or props.floors != 1:
+	if props.style != HouseProperties.Style.CHALET:
+		return ""
+	var glass_top := -INF
+	for pane in _front_components(mesh, "glass", props):
+		glass_top = maxf(glass_top, pane.position.y + pane.size.y)
+	var wall_top := -INF
+	for face in _front_components(mesh, "wall", props):
+		wall_top = maxf(wall_top, face.position.y + face.size.y)
+	if glass_top > -100.0 and wall_top - glass_top < 0.85:
+		return "chalet windows sit %.2f m under the roof" % (wall_top - glass_top)
+	if props.floors != 1:
 		return ""
 	var door_top := _front_component(mesh, "door", props)
 	var roof := mesh.surface_find_by_name("roof")
