@@ -1,12 +1,14 @@
-[gd_resource type="ShaderMaterial" format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://s4c6e6aob3j6"]
 
-[ext_resource type="Shader" path="res://house_catalog/house_surface.tres" id="1_6hl11"]
-[ext_resource type="Texture2D" path="res://house_catalog/house_albedo.tres" id="2_m1xie"]
-[ext_resource type="Texture2D" path="res://house_catalog/house_roughness.tres" id="3_ulllm"]
+[ext_resource type="Shader" uid="uid://cau4bljb330an" path="res://house_catalog/house_surface.tres" id="1_m1xie"]
+[ext_resource type="Texture2D" uid="uid://h7myqyrsu0a" path="res://house_catalog/house_albedo.tres" id="2_ulllm"]
+[ext_resource type="Texture2D" uid="uid://bcyjrgmge6tdq" path="res://house_catalog/house_normal.tres" id="3_yerm1"]
+[ext_resource type="Texture2D" uid="uid://cyf1n2vupkxmd" path="res://house_catalog/house_roughness.tres" id="4_22orl"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_6hl11")
-shader_parameter/albedo_atlas = ExtResource("2_m1xie")
-shader_parameter/roughness_atlas = ExtResource("3_ulllm")
+shader = ExtResource("1_m1xie")
+shader_parameter/albedo_atlas = ExtResource("2_ulllm")
+shader_parameter/roughness_atlas = ExtResource("4_22orl")
+shader_parameter/normal_atlas = ExtResource("3_yerm1")
 shader_parameter/atlas_grid = Vector2(4, 3)

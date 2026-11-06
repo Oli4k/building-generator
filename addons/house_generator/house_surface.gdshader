@@ -4,6 +4,7 @@ shader_type spatial;
 // UV repeats in meters (one tile is 4 m). UV2.x is the tile index.
 uniform sampler2D albedo_atlas : source_color, filter_linear_mipmap, repeat_disable;
 uniform sampler2D roughness_atlas : filter_linear_mipmap, repeat_disable;
+uniform sampler2D normal_atlas : hint_normal, filter_linear_mipmap, repeat_disable;
 uniform vec2 atlas_grid = vec2(4.0, 3.0);
 
 void fragment() {
@@ -14,6 +15,8 @@ void fragment() {
 	vec2 dy = dFdy(UV) / atlas_grid;
 	ALBEDO = textureGrad(albedo_atlas, uv, dx, dy).rgb * COLOR.rgb;
 	ROUGHNESS = textureGrad(roughness_atlas, uv, dx, dy).a;
+	NORMAL_MAP = textureGrad(normal_atlas, uv, dx, dy).rgb;
+	NORMAL_MAP_DEPTH = 1.0;
 	float metallic = 0.0;
 	if (UV2.x > 4.5 && UV2.x < 5.5)
 		metallic = 0.62;

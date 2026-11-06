@@ -204,6 +204,8 @@ func _commit() -> ArrayMesh:
 	for i in sts.size():
 		if counts[i] == 0:
 			continue
+		sts[i].index()
+		sts[i].generate_tangents()
 		sts[i].set_material(_Surface.editor_material(i, colors[i], i == GLASS))
 		sts[i].commit(mesh)
 		mesh.surface_set_name(out_index, _SURFACE_NAMES[i])
@@ -218,6 +220,8 @@ func _commit_catalog() -> ArrayMesh:
 	for i in sts.size():
 		if counts[i] == 0:
 			continue
+		sts[i].index()
+		sts[i].generate_tangents()
 		var temp := ArrayMesh.new()
 		sts[i].commit(temp)
 		merged.append_from(temp, 0, Transform3D.IDENTITY)

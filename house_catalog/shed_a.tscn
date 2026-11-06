@@ -1,20 +1,20 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://co7l146q6h4f8"]
 
-[ext_resource type="ArrayMesh" path="res://house_catalog/shed_a_lod0.res" id="1_6vj5r"]
-[ext_resource type="ArrayMesh" path="res://house_catalog/shed_a_lod1.res" id="2_udpev"]
-[ext_resource type="ArrayMesh" path="res://house_catalog/shed_a_lod2.res" id="3_wpftv"]
+[ext_resource type="ArrayMesh" uid="uid://dhqmp2fkwotvh" path="res://house_catalog/shed_a_lod0.res" id="1_6vj5r"]
+[ext_resource type="ArrayMesh" uid="uid://df4kto4h6wbd0" path="res://house_catalog/shed_a_lod1.res" id="2_udpev"]
+[ext_resource type="ArrayMesh" uid="uid://diwhldkwso827" path="res://house_catalog/shed_a_lod2.res" id="3_wpftv"]
 
-[node name="shed_a" type="Node3D" unique_id=1616490168]
+[node name="shed_a" type="Node3D" unique_id=108210092]
 
-[node name="LOD0" type="MeshInstance3D" parent="." unique_id=12852947]
+[node name="LOD0" type="MeshInstance3D" parent="." unique_id=421728826]
 mesh = ExtResource("1_6vj5r")
 
-[node name="LOD1" type="MeshInstance3D" parent="." unique_id=72928694]
+[node name="LOD1" type="MeshInstance3D" parent="." unique_id=805040718]
 visible = false
 cast_shadow = 0
 mesh = ExtResource("2_udpev")
 
-[node name="LOD2" type="MeshInstance3D" parent="." unique_id=535868646]
+[node name="LOD2" type="MeshInstance3D" parent="." unique_id=398609270]
 visible = false
 cast_shadow = 0
 mesh = ExtResource("3_wpftv")
