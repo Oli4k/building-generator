@@ -36,6 +36,13 @@ enum RoofType {
 	GAMBREL,
 }
 
+## How the main roof is built. SHELL uses [member roof_type]; CROSS / SPAN are topologies.
+enum RoofProfile {
+	SHELL,
+	CROSS,
+	SPAN,
+}
+
 enum HouseSide {
 	LEFT,
 	CENTER,
@@ -57,6 +64,12 @@ enum FacadeProfile {
 	GRID,
 	SHOP_FRONT,
 	NONE,
+}
+
+## Front porch / platform canopy. Used when [member porch] is true.
+enum PorchProfile {
+	DECK,
+	CANOPY,
 }
 
 ## Bits for [member window_walls] and [member slit_walls]. Front is the -Z face.
@@ -87,6 +100,8 @@ const WINDOW_ALL := WINDOW_FRONT | WINDOW_RIGHT | WINDOW_BACK | WINDOW_LEFT
 @export_range(2.2, 6.5, 0.05, "suffix:m") var floor_height: float = 2.65
 @export_range(0.0, 1.5, 0.05, "suffix:m") var foundation_height: float = 0.35
 @export_range(0.08, 0.4, 0.01, "suffix:m") var wall_thickness: float = 0.16
+## SHELL dispatches on [member roof_type]. CROSS and SPAN use dedicated elements.
+@export var roof_profile: RoofProfile = RoofProfile.SHELL
 @export var roof_type: RoofType = RoofType.GABLE
 ## Rise divided by run. Ignored for flat roofs.
 @export_range(0.05, 1.4, 0.01) var roof_pitch: float = 0.65
@@ -94,6 +109,8 @@ const WINDOW_ALL := WINDOW_FRONT | WINDOW_RIGHT | WINDOW_BACK | WINDOW_LEFT
 @export var chimney: bool = true
 @export var chimney_side: HouseSide = HouseSide.RIGHT
 @export var porch: bool = false
+## DECK has a floor and posts; CANOPY is an eave-hung platform roof (keeps silhouette far).
+@export var porch_profile: PorchProfile = PorchProfile.DECK
 @export_range(0.8, 3.5, 0.05, "suffix:m") var porch_depth: float = 1.4
 ## Lower entry unit in the front corner, with a person door and one window. Hangars and warehouses use it.
 @export var annex: bool = false

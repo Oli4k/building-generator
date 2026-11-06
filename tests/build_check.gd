@@ -60,6 +60,14 @@ func _init() -> void:
 	if profiles != "":
 		failed = true
 		push_error(profiles)
+	var roofs := _check_roof_profiles()
+	if roofs != "":
+		failed = true
+		push_error(roofs)
+	var porches := _check_porch_profiles()
+	if porches != "":
+		failed = true
+		push_error(porches)
 	var added := _check_alpine_and_station()
 	if added != "":
 		failed = true
@@ -359,6 +367,32 @@ func _check_facade_profiles() -> String:
 	return ""
 
 
+func _check_roof_profiles() -> String:
+	var cottage := HouseProperties.make(HouseProperties.Style.COTTAGE, 4)
+	if cottage.roof_profile != HouseProperties.RoofProfile.SHELL:
+		return "cottage recipe did not set SHELL roof"
+	var alpine := HouseProperties.make(HouseProperties.Style.ALPINE, 3)
+	if alpine.roof_profile != HouseProperties.RoofProfile.CROSS:
+		return "alpine recipe did not set CROSS roof"
+	var hangar := HouseProperties.make(HouseProperties.Style.HANGAR, 2)
+	if hangar.roof_profile != HouseProperties.RoofProfile.SPAN:
+		return "hangar recipe did not set SPAN roof"
+	var warehouse := HouseProperties.make(HouseProperties.Style.WAREHOUSE, 4)
+	if warehouse.roof_profile != HouseProperties.RoofProfile.SPAN:
+		return "warehouse recipe did not set SPAN roof"
+	# Style no longer forces the roof: alpine massing with a shell hip must still build.
+	var shell_hip := HouseProperties.make(HouseProperties.Style.ALPINE, 3)
+	shell_hip.roof_profile = HouseProperties.RoofProfile.SHELL
+	shell_hip.roof_type = HouseProperties.RoofType.HIP
+	shell_hip.chimney = false
+	var mesh := HouseGenerator.build_mesh(shell_hip, 0)
+	if mesh == null or mesh.get_surface_count() < 1:
+		return "alpine style with SHELL hip failed to build"
+	if mesh.surface_find_by_name("roof") < 0:
+		return "alpine style with SHELL hip is missing its roof"
+	return ""
+
+
 func _check_industrial() -> String:
 	var hangar_on := 0
 	var warehouse_on := 0
@@ -455,6 +489,8 @@ func _check_alpine_and_station() -> String:
 		var station := HouseProperties.make(HouseProperties.Style.STATION, seed_value)
 		if station.floors != 1 or not station.porch or station.porch_depth < 2.0:
 			return "station is not a single-story platform building"
+		if station.porch_profile != HouseProperties.PorchProfile.CANOPY:
+			return "station recipe did not set CANOPY porch"
 		for lod in [0, 2]:
 			var canopy := HouseGenerator.build_mesh(station, lod)
 			var roof := canopy.surface_find_by_name("roof")
@@ -466,6 +502,33 @@ func _check_alpine_and_station() -> String:
 					reached = true
 			if not reached:
 				return "station canopy is missing on lod %d" % lod
+	return ""
+
+
+func _check_porch_profiles() -> String:
+	var station := HouseProperties.make(HouseProperties.Style.STATION, 8)
+	if station.porch_profile != HouseProperties.PorchProfile.CANOPY:
+		return "station recipe did not set CANOPY"
+	var cottage := HouseProperties.make(HouseProperties.Style.COTTAGE, 4)
+	cottage.porch = true
+	if cottage.porch_profile != HouseProperties.PorchProfile.DECK:
+		return "cottage porch profile is not DECK"
+	# Style no longer forces canopy metrics: a cottage CANOPY must still build.
+	cottage.porch_profile = HouseProperties.PorchProfile.CANOPY
+	cottage.porch_depth = 2.4
+	var mesh := HouseGenerator.build_mesh(cottage, 0)
+	if mesh == null or mesh.get_surface_count() < 1:
+		return "cottage with CANOPY porch failed to build"
+	var far := HouseGenerator.build_mesh(cottage, 2)
+	var roof := far.surface_find_by_name("roof")
+	if roof < 0:
+		return "cottage CANOPY far mesh is missing its roof"
+	var reached := false
+	for vertex in far.surface_get_arrays(roof)[Mesh.ARRAY_VERTEX]:
+		if vertex.z < -cottage.depth * 0.5 - 1.4:
+			reached = true
+	if not reached:
+		return "cottage CANOPY did not keep a far silhouette"
 	return ""
 
 

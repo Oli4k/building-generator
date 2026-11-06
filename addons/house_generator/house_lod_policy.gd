@@ -5,14 +5,18 @@ extends RefCounted
 ## Which building features appear at each LOD.
 
 var lod: int = 0
-## Station keeps a canopy silhouette at LOD2.
+## CANOPY porches keep a silhouette at LOD2.
 var keep_porch_far: bool = false
 
 
 static func for_build(lod: int, props: HouseProperties) -> HouseLodPolicy:
 	var policy := HouseLodPolicy.new()
 	policy.lod = clampi(lod, 0, 2)
-	policy.keep_porch_far = props != null and props.style == HouseProperties.Style.STATION
+	policy.keep_porch_far = (
+		props != null
+		and props.porch
+		and props.porch_profile == HouseProperties.PorchProfile.CANOPY
+	)
 	return policy
 
 

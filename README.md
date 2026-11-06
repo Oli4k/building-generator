@@ -81,7 +81,7 @@ The church plan comes from the seed and is stored on `church_plan`. **Annex** ad
 
 ### Extending styles
 
-Parameter-only styles (new cottage-like ranges and colors) go in `HouseRecipes` — no mesh code. Opening layout is recipe-driven: set `facade_profile` (`GRID`, `SHOP_FRONT`, `NONE`), optional `slit_walls`, and for halls `garage_width_fraction` / clearances. `HouseOpeningLayout.layout_wall` places rects; mesh cutting stays in the build context. New silhouettes need a `HouseBuildContext.Composition` entry or a new element under `addons/house_generator/elements/`, plus a recipe. LOD gates live in `HouseLodPolicy`. Catalog rows stay `(name, style, seed[, annex])` in `HouseCatalog.VARIANTS`.
+Parameter-only styles (new cottage-like ranges and colors) go in `HouseRecipes` — no mesh code. Opening layout is recipe-driven: set `facade_profile` (`GRID`, `SHOP_FRONT`, `NONE`), optional `slit_walls`, and for halls `garage_width_fraction` / clearances. Roofs are recipe-driven too: `roof_profile` is `SHELL` (dispatches on `roof_type`: gable, hip, flat, shed, gambrel), `CROSS` (alpine cross-gable), or `SPAN` (industrial hall). A new shell silhouette adds a `RoofType` and `_add_roof_*` in the build context; a new topology adds a `RoofProfile` plus an element under `addons/house_generator/elements/`. Porch type is recipe `porch_profile` (`DECK` or `CANOPY`). Church tower/chancel/aisle and annex flat roofs stay element-owned exceptions. New massing needs a `HouseBuildContext.Composition` entry or element, plus a recipe. LOD gates live in `HouseLodPolicy`. Catalog rows stay `(name, style, seed[, annex])` in `HouseCatalog.VARIANTS`.
 
 ## A batch of scenes
 

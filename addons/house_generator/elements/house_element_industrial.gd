@@ -4,8 +4,8 @@ extends RefCounted
 
 ## Metal hall and optional annex for hangars and warehouses.
 
-static func industrial(ctx: HouseBuildContext) -> bool:
-	return ctx.props.style == HouseProperties.Style.HANGAR or ctx.props.style == HouseProperties.Style.WAREHOUSE
+static func span_roof(ctx: HouseBuildContext) -> bool:
+	return ctx.props.roof_profile == HouseProperties.RoofProfile.SPAN
 
 
 ## A windowless metal hall. The optional entry unit occupies the front-right corner of the same footprint.
@@ -34,7 +34,8 @@ static func add_industrial(ctx: HouseBuildContext) -> void:
 		HouseElementIndustrial.add_hall_far(ctx, hall_x0, hall_x1, hall_w, y0, wall_h)
 		if annex_w > 0.0:
 			HouseElementIndustrial.add_annex_far(ctx, hall_x1, ctx.hx, -ctx.hz, -ctx.hz + annex_d, y0, annex_h)
-	HouseElementIndustrial.add_span_roof(ctx, hall_x0, hall_x1, -ctx.hz, ctx.hz, ctx.found_h + ctx.front_h, ctx.peak_y)
+	if HouseElementIndustrial.span_roof(ctx):
+		HouseElementIndustrial.add_span_roof(ctx, hall_x0, hall_x1, -ctx.hz, ctx.hz, ctx.found_h + ctx.front_h, ctx.peak_y)
 	if annex_w > 0.0:
 		var annex_y := ctx.found_h + annex_h
 		var oh := 0.22

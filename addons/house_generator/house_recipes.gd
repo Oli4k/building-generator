@@ -68,6 +68,7 @@ static func _apply_common_defaults(props: HouseProperties) -> void:
 	props.window_walls = HouseProperties.WINDOW_ALL
 	props.slit_walls = 0
 	props.facade_profile = HouseProperties.FacadeProfile.GRID
+	props.roof_profile = HouseProperties.RoofProfile.SHELL
 	props.catalog_column_cap = 2
 	props.garage_width_fraction = 0.5
 	props.garage_top_clearance = 0.55
@@ -80,6 +81,7 @@ static func _apply_common_defaults(props: HouseProperties) -> void:
 	props.window_pattern = HouseProperties.WindowPattern.UNIFORM
 	props.window_variation = 0.0
 	props.porch = false
+	props.porch_profile = HouseProperties.PorchProfile.DECK
 	props.porch_depth = 1.4
 	props.annex = false
 	props.chimney = false
@@ -376,6 +378,7 @@ static func _apply_hangar(props: HouseProperties, rng: RandomNumberGenerator, se
 	props.porch = false
 	props.annex = _salted_unit(seed_value, 80) < 0.38
 	props.facade_profile = HouseProperties.FacadeProfile.NONE
+	props.roof_profile = HouseProperties.RoofProfile.SPAN
 	props.window_walls = 0
 	props.window_omit = 0.0
 	props.garage_width_fraction = 0.66
@@ -397,6 +400,7 @@ static func _apply_warehouse(props: HouseProperties, rng: RandomNumberGenerator,
 	props.porch = false
 	props.annex = _salted_unit(seed_value, 80) < 0.72
 	props.facade_profile = HouseProperties.FacadeProfile.NONE
+	props.roof_profile = HouseProperties.RoofProfile.SPAN
 	props.window_walls = 0
 	props.window_omit = 0.0
 	props.garage_width_fraction = 0.40
@@ -410,6 +414,7 @@ static func _apply_alpine(props: HouseProperties, rng: RandomNumberGenerator) ->
 	props.width = rng.randf_range(9.5, 13.5)
 	props.depth = rng.randf_range(7.2, 9.0)
 	props.floor_height = rng.randf_range(2.6, 2.85)
+	props.roof_profile = HouseProperties.RoofProfile.CROSS
 	props.roof_type = HouseProperties.RoofType.GABLE
 	# Flachsatteldach: a shallow cross gable. Pitch is rise over run, about 17° to 23°.
 	props.roof_pitch = rng.randf_range(0.30, 0.42)
@@ -442,6 +447,7 @@ static func _apply_station(props: HouseProperties, rng: RandomNumberGenerator) -
 	props.foundation_height = rng.randf_range(0.28, 0.42)
 	props.chimney = false
 	props.porch = true
+	props.porch_profile = HouseProperties.PorchProfile.CANOPY
 	props.porch_depth = rng.randf_range(2.3, 2.8)
 	props.door_width = 1.05
 	props.door_height = 2.2

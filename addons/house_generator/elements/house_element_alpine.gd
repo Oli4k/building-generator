@@ -24,7 +24,7 @@ static func cross_x_out(ctx: HouseBuildContext) -> float:
 
 
 static func cross_roof(ctx: HouseBuildContext) -> bool:
-	return ctx.props.style == HouseProperties.Style.ALPINE
+	return ctx.props.roof_profile == HouseProperties.RoofProfile.CROSS
 
 
 static func add_roof_cross(ctx: HouseBuildContext) -> void:
@@ -135,7 +135,7 @@ static func cap_wall_span(ctx: HouseBuildContext, origin: Vector3, axis_u: Vecto
 
 
 static func add_alpine_balcony(ctx: HouseBuildContext) -> void:
-	if ctx.props.style != HouseProperties.Style.ALPINE or ctx.floors < 2:
+	if ctx.composition != HouseBuildContext.Composition.ALPINE or ctx.floors < 2:
 		return
 	var reach := minf(1.2, maxf(0.85, ctx.overhang - 0.25))
 	var x0 := -ctx.hx + 0.35

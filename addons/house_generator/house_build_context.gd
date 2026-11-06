@@ -113,8 +113,8 @@ func _compute_roof_metrics() -> void:
 			y_break = y_wall + lower_run * pitch * 1.35
 			peak_y = y_break + break_z * pitch * 0.42
 		_:
-			# The alpine roof is a cross gable: one ridge height, set by the short span.
-			if composition == Composition.ALPINE:
+			# Cross gable: one ridge height, set by the short span.
+			if props.roof_profile == HouseProperties.RoofProfile.CROSS:
 				peak_y = y_wall + minf(hx, hz) * pitch
 			else:
 				peak_y = y_wall + hz * pitch
@@ -196,20 +196,23 @@ func _add_side_wall(origin: Vector3, axis_u: Vector3, length: float, h_start: fl
 		_add_slope_cap(origin, axis_u, length, h_start, h_end, outward)
 
 func _add_roof() -> void:
-	if ElementAlpine.cross_roof(self):
-		ElementAlpine.add_roof_cross(self)
-		return
-	match props.roof_type:
-		HouseProperties.RoofType.HIP:
-			_add_roof_hip()
-		HouseProperties.RoofType.FLAT:
-			_add_roof_flat()
-		HouseProperties.RoofType.SHED:
-			_add_roof_shed()
-		HouseProperties.RoofType.GAMBREL:
-			_add_roof_gambrel()
+	match props.roof_profile:
+		HouseProperties.RoofProfile.CROSS:
+			ElementAlpine.add_roof_cross(self)
+		HouseProperties.RoofProfile.SPAN:
+			pass  # Industrial element owns the hall roof.
 		_:
-			_add_roof_gable()
+			match props.roof_type:
+				HouseProperties.RoofType.HIP:
+					_add_roof_hip()
+				HouseProperties.RoofType.FLAT:
+					_add_roof_flat()
+				HouseProperties.RoofType.SHED:
+					_add_roof_shed()
+				HouseProperties.RoofType.GAMBREL:
+					_add_roof_gambrel()
+				_:
+					_add_roof_gable()
 
 func _add_roof_gable() -> void:
 	var y_wall := found_h + front_h
@@ -333,7 +336,7 @@ func _add_porch() -> void:
 	var y_outer: float = metrics.y_outer
 	var y_wall: float = metrics.y_wall
 	var deck_span := x1 - x0
-	if policy.porch_posts_and_deck() and props.style != HouseProperties.Style.STATION:
+	if policy.porch_posts_and_deck() and props.porch_profile == HouseProperties.PorchProfile.DECK:
 		_box(TRIM, Vector3(0, deck_top - 0.05, (-hz + z_outer) * 0.5), Vector3(deck_span, 0.1, pd))
 	var z_wall: float = metrics.z_attach if metrics.has("z_attach") else -hz - 0.02
 	_panel(shell_roof, [
@@ -361,7 +364,7 @@ func _add_porch() -> void:
 func _porch_metrics() -> Dictionary:
 	if not props.porch:
 		return {}
-	if props.style == HouseProperties.Style.STATION:
+	if props.porch_profile == HouseProperties.PorchProfile.CANOPY:
 		var canopy := clampf(props.porch_depth, 1.8, 3.2)
 		var plate := found_h + front_h
 		var y_eave := plate - overhang * pitch

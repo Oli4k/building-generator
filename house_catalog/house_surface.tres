@@ -19,7 +19,7 @@ void fragment() {
 	ROUGHNESS = textureGrad(roughness_atlas, uv, dx, dy).a;
 	float metallic = 0.0;
 	if (UV2.x > 4.5 && UV2.x < 5.5)
-		metallic = 0.45;
+		metallic = 0.62;
 	else if (UV2.x > 6.5 && UV2.x < 8.5)
 		metallic = 0.8;
 	METALLIC = metallic;
