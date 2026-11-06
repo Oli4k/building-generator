@@ -9,6 +9,7 @@ enum WallMode { DETAILED, SOLID, SHELL }
 enum Composition { RESIDENTIAL, ALPINE, CHURCH, INDUSTRIAL }
 
 const OpeningLayout := preload("res://addons/house_generator/house_opening_layout.gd")
+const OpeningFrame := preload("res://addons/house_generator/house_opening_frame.gd")
 const ElementIndustrial := preload("res://addons/house_generator/elements/house_element_industrial.gd")
 const ElementChurch := preload("res://addons/house_generator/elements/house_element_church.gd")
 const ElementAlpine := preload("res://addons/house_generator/elements/house_element_alpine.gd")
@@ -530,29 +531,7 @@ func _add_opening(origin: Vector3, axis_u: Vector3, outward: Vector3, op: Dictio
 		var g2 := origin + axis_u * u1 + Vector3.UP * v1 + mid
 		var g3 := origin + axis_u * u0 + Vector3.UP * v1 + mid
 		_face4(GLASS, g0, g1, g2, g3, outward)
-		if not catalog:
-			_add_frame(origin, axis_u, outward, u0, v0, u1, v1, false)
-	if not op.door:
-		return
-	_add_frame(origin, axis_u, outward, u0, v0, u1, v1, true)
-
-func _add_frame(origin: Vector3, axis_u: Vector3, outward: Vector3, u0: float, v0: float, u1: float, v1: float, is_door: bool) -> void:
-	var fw := 0.055
-	var fd := 0.035
-	var along := (u1 - u0) + fw * 2.0
-	var lift := outward * (fd * 0.5)
-	var mid_u := (u0 + u1) * 0.5
-	_box(TRIM, origin + axis_u * mid_u + Vector3.UP * v1 + lift, axis_u.abs() * along + Vector3.UP * fw + outward.abs() * fd)
-	if not is_door:
-		_box(TRIM, origin + axis_u * mid_u + Vector3.UP * v0 + lift, axis_u.abs() * along + Vector3.UP * fw + outward.abs() * fd)
-	var side_h := maxf(0.05, (v1 - v0) - fw - 0.008)
-	var side_v := (v0 + v1) * 0.5
-	if is_door:
-		side_h = maxf(0.05, v1 - v0 - fw * 0.5 - 0.008)
-		side_v = v0 + side_h * 0.5
-	var side_size := axis_u.abs() * fw + Vector3.UP * side_h + outward.abs() * fd
-	_box(TRIM, origin + axis_u * u0 + Vector3.UP * side_v + lift, side_size)
-	_box(TRIM, origin + axis_u * u1 + Vector3.UP * side_v + lift, side_size)
+	OpeningFrame.add(self, origin, axis_u, outward, u0, v0, u1, v1, op.door)
 
 func _add_opening_decal(origin: Vector3, axis_u: Vector3, outward: Vector3, op: Dictionary) -> void:
 	var r: Rect2 = op.rect

@@ -72,6 +72,14 @@ enum PorchProfile {
 	CANOPY,
 }
 
+## Exterior trim around an opening. Set by the style recipe; mesh only.
+enum FrameProfile {
+	NONE,
+	SIMPLE,
+	SILL,
+	DIVIDED,
+}
+
 ## Bits for [member window_walls] and [member slit_walls]. Front is the -Z face.
 const WINDOW_FRONT := 1
 const WINDOW_RIGHT := 2
@@ -142,6 +150,12 @@ const WINDOW_ALL := WINDOW_FRONT | WINDOW_RIGHT | WINDOW_BACK | WINDOW_LEFT
 @export_range(0.3, 1.5, 0.01, "suffix:m") var garage_top_clearance: float = 0.55
 ## Hard cap on hangar/warehouse door height.
 @export_range(2.5, 6.0, 0.05, "suffix:m") var garage_max_height: float = 4.5
+## Exterior kozijn / door trim. NONE skips trim boxes; layout rects stay the same.
+@export var frame_profile: FrameProfile = FrameProfile.SIMPLE
+@export_range(0.03, 0.12, 0.005, "suffix:m") var frame_width: float = 0.065
+@export_range(0.02, 0.10, 0.005, "suffix:m") var frame_depth: float = 0.055
+## Extra outward protrusion for [enum FrameProfile.SILL] bottom rails.
+@export_range(0.0, 0.12, 0.005, "suffix:m") var sill_depth: float = 0.04
 
 @export_group("Colors")
 @export var wall_color: Color = Color("#e4d2b0")

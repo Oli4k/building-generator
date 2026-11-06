@@ -68,6 +68,10 @@ func _init() -> void:
 	if porches != "":
 		failed = true
 		push_error(porches)
+	var frames := _check_frame_profiles()
+	if frames != "":
+		failed = true
+		push_error(frames)
 	var added := _check_alpine_and_station()
 	if added != "":
 		failed = true
@@ -529,6 +533,36 @@ func _check_porch_profiles() -> String:
 			reached = true
 	if not reached:
 		return "cottage CANOPY did not keep a far silhouette"
+	return ""
+
+
+func _check_frame_profiles() -> String:
+	var cottage := HouseProperties.make(HouseProperties.Style.COTTAGE, 4)
+	if cottage.frame_profile != HouseProperties.FrameProfile.SIMPLE:
+		return "cottage recipe did not set SIMPLE frame"
+	var church := HouseProperties.make(HouseProperties.Style.CHURCH, 14)
+	if church.frame_profile != HouseProperties.FrameProfile.SILL:
+		return "church recipe did not set SILL frame"
+	var hangar := HouseProperties.make(HouseProperties.Style.HANGAR, 2)
+	if hangar.frame_profile != HouseProperties.FrameProfile.NONE:
+		return "hangar recipe did not set NONE frame"
+	var warehouse := HouseProperties.make(HouseProperties.Style.WAREHOUSE, 4)
+	if warehouse.frame_profile != HouseProperties.FrameProfile.NONE:
+		return "warehouse recipe did not set NONE frame"
+	var shed := HouseProperties.make(HouseProperties.Style.SHED, 3)
+	if shed.frame_profile != HouseProperties.FrameProfile.SIMPLE:
+		return "shed recipe did not keep SIMPLE frame"
+	if absf(shed.frame_width - 0.05) > 0.001:
+		return "shed frame_width is %.3f" % shed.frame_width
+	# Style no longer owns frame mesh: override profiles must still build.
+	cottage.frame_profile = HouseProperties.FrameProfile.DIVIDED
+	var divided := HouseGenerator.build_mesh(cottage, 0)
+	if divided == null or divided.get_surface_count() < 1:
+		return "cottage with DIVIDED frame failed to build"
+	cottage.frame_profile = HouseProperties.FrameProfile.NONE
+	var none_mesh := HouseGenerator.build_mesh(cottage, 0)
+	if none_mesh == null or none_mesh.get_surface_count() < 1:
+		return "cottage with NONE frame failed to build"
 	return ""
 
 

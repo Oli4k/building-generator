@@ -86,6 +86,10 @@ static func _apply_common_defaults(props: HouseProperties) -> void:
 	props.annex = false
 	props.chimney = false
 	props.church_plan = 0
+	props.frame_profile = HouseProperties.FrameProfile.SIMPLE
+	props.frame_width = 0.065
+	props.frame_depth = 0.055
+	props.sill_depth = 0.06
 	props.glass_color = Color("#7aa4b5")
 	props.trim_color = Color("#f3efe6")
 	props.foundation_color = Color("#6d675f")
@@ -226,6 +230,8 @@ static func _apply_shed(props: HouseProperties, rng: RandomNumberGenerator) -> v
 	props.door_width = 0.82
 	props.door_height = 1.9
 	props.foundation_height = 0.12
+	props.frame_width = 0.05
+	props.frame_depth = 0.045
 	props.wall_color = _pick(rng, [Color("#8d7b5e"), Color("#6f624c"), Color("#9a8668"), Color("#5e6a58")])
 	props.roof_color = _pick(rng, [Color("#3e443c"), Color("#596068"), Color("#4a4038")])
 	props.door_color = Color("#4a3428")
@@ -266,6 +272,7 @@ static func _apply_church(props: HouseProperties, rng: RandomNumberGenerator, se
 	props.floors = 1
 	props.chimney = false
 	props.porch = false
+	props.frame_profile = HouseProperties.FrameProfile.SILL
 	props.foundation_height = rng.randf_range(0.18, 0.32)
 	props.door_width = 1.15
 	props.door_height = 2.35
@@ -379,6 +386,7 @@ static func _apply_hangar(props: HouseProperties, rng: RandomNumberGenerator, se
 	props.annex = _salted_unit(seed_value, 80) < 0.38
 	props.facade_profile = HouseProperties.FacadeProfile.NONE
 	props.roof_profile = HouseProperties.RoofProfile.SPAN
+	props.frame_profile = HouseProperties.FrameProfile.NONE
 	props.window_walls = 0
 	props.window_omit = 0.0
 	props.garage_width_fraction = 0.66
@@ -401,6 +409,7 @@ static func _apply_warehouse(props: HouseProperties, rng: RandomNumberGenerator,
 	props.annex = _salted_unit(seed_value, 80) < 0.72
 	props.facade_profile = HouseProperties.FacadeProfile.NONE
 	props.roof_profile = HouseProperties.RoofProfile.SPAN
+	props.frame_profile = HouseProperties.FrameProfile.NONE
 	props.window_walls = 0
 	props.window_omit = 0.0
 	props.garage_width_fraction = 0.40
